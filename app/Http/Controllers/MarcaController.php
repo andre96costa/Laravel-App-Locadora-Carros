@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marca;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 
 class MarcaController extends Controller
 {
+    private Marca $marca; 
+
+    public function __construct(Marca $marca) {
+        $this->marca = $marca;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,17 +20,19 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json($this->marca->all(), 200);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display the specified resource.
      *
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function show(int $id)
     {
-        //
+        $marca = $this->marca->find($id);
+        return response()->json($marca, 200);
     }
 
     /**
@@ -35,51 +43,43 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $marca = $this->marca->create([
+            "nome" => $request->nome,
+            "imagem" => $request->imagem,
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Marca  $marca
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Marca $marca)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Marca  $marca
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Marca $marca)
-    {
-        //
+        return response()->json($marca, 201);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Marca  $marca
+     * @param  Integer  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Marca $marca)
-    {
-        //
+    public function update(Request $request, int $id)
+    {   
+        $marca = $this->marca->find($id);
+        $marca->update([
+            'nome' => $request->nome,
+            'imagem' => $request->imagem, 
+        ]);
+
+        return response()->json($marca, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Marca  $marca
+     * @param  Integer  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Marca $marca)
+    public function destroy(int $id)
     {
-        //
+        $marca = $this->marca->find($id);
+        $marca->delete();
+
+        return response()->json([], 204);
     }
 }
