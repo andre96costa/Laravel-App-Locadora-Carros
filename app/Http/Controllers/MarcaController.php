@@ -32,6 +32,9 @@ class MarcaController extends Controller
     public function show(int $id)
     {
         $marca = $this->marca->find($id);
+        if (empty($marca)) {
+            return response()->json([], 404);
+        }
         return response()->json($marca, 200);
     }
 
@@ -43,6 +46,8 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->marca->rules(), $this->marca->feedback());
+
         $marca = $this->marca->create([
             "nome" => $request->nome,
             "imagem" => $request->imagem,
@@ -61,10 +66,26 @@ class MarcaController extends Controller
     public function update(Request $request, int $id)
     {   
         $marca = $this->marca->find($id);
-        $marca->update([
-            'nome' => $request->nome,
-            'imagem' => $request->imagem, 
-        ]);
+
+        if (empty($marca)) {
+            return response()->json(['error' => 'Objeto não encontrado'], 404);
+        }
+
+        if ($request->method() === 'PUT') {
+            
+            $request->validate($marca->rules(), $marca->feedback());
+            
+        } else {
+            $regrasDinamicas = array();
+            foreach ($marca->rules() as $key => $value) {
+                if (array_key_exists($key, $request->all())) {
+                    $regrasDinamicas[$key] = $value;
+                }
+            }
+            $request->validate($regrasDinamicas, $marca->feedback());
+        }
+
+        $marca->update($request->all());
 
         return response()->json($marca, 200);
     }
@@ -78,6 +99,11 @@ class MarcaController extends Controller
     public function destroy(int $id)
     {
         $marca = $this->marca->find($id);
+
+        if (empty($marca)) {
+            return response()->json([], 404);
+        }
+
         $marca->delete();
 
         return response()->json([], 204);
