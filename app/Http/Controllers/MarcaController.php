@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Marca;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MarcaController extends Controller
 {
@@ -48,12 +49,14 @@ class MarcaController extends Controller
     {
         $request->validate($this->marca->rules(), $this->marca->feedback());
 
+        $imagem = $request->file('imagem')->store('imagens', 'public');
+
         $marca = $this->marca->create([
             "nome" => $request->nome,
-            "imagem" => $request->imagem,
+            "imagem" => $imagem,
         ]);
 
-        return response()->json($marca, 201);
+        return response()->json([], 201);
     }
 
     /**
@@ -66,17 +69,19 @@ class MarcaController extends Controller
     public function update(Request $request, int $id)
     {   
         $marca = $this->marca->find($id);
-
+        $image = $request->file('imagem');
+        
         if (empty($marca)) {
-            return response()->json(['error' => 'Objeto não encontrado'], 404);
+            return response()->json([], 404);
         }
 
         if ($request->method() === 'PUT') {
-            
             $request->validate($marca->rules(), $marca->feedback());
-            
-        } else {
+        }
+
+        if ($request->method() === 'PATCH') {
             $regrasDinamicas = array();
+
             foreach ($marca->rules() as $key => $value) {
                 if (array_key_exists($key, $request->all())) {
                     $regrasDinamicas[$key] = $value;
@@ -84,9 +89,17 @@ class MarcaController extends Controller
             }
             $request->validate($regrasDinamicas, $marca->feedback());
         }
+        
+        if (empty($image)) {
+            $image = $marca->imagem;
+        } else {
+            Storage::disk('public')->delete($marca->imagem);
+            $image = $image->store('imagens', 'public');
+        }
 
-        $marca->update($request->all());
-
+        $update = $request->all();
+        $update['imagem'] = $image;
+        $marca->update($update);
         return response()->json($marca, 200);
     }
 
@@ -104,6 +117,7 @@ class MarcaController extends Controller
             return response()->json([], 404);
         }
 
+        Storage::disk('public')->delete($marca->imagem);
         $marca->delete();
 
         return response()->json([], 204);
