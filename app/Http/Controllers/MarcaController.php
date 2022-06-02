@@ -21,7 +21,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        return response()->json($this->marca->all(), 200);
+        return response()->json($this->marca->with('modelos')->get(), 200);
     }
 
     /**
@@ -32,7 +32,7 @@ class MarcaController extends Controller
      */
     public function show(int $id)
     {
-        $marca = $this->marca->find($id);
+        $marca = $this->marca->with('modelos')->find($id);
         if (empty($marca)) {
             return response()->json([], 404);
         }
@@ -56,7 +56,7 @@ class MarcaController extends Controller
             "imagem" => $imagem,
         ]);
 
-        return response()->json([], 201);
+        return response()->json($marca, 201);
     }
 
     /**
