@@ -73,7 +73,7 @@ class ModeloController extends Controller
      */
     public function show(int $id)
     {
-        $modelo = $this->modeloModel->with('marca')->find($id);
+        $modelo = $this->modeloModel->with(['marca', 'carros'])->find($id);
         if (empty($modelo)) {
             return response()->json([], 404);
         }

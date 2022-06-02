@@ -3,84 +3,121 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carro;
-use App\Http\Requests\StoreCarroRequest;
-use App\Http\Requests\UpdateCarroRequest;
+use App\Repositories\CarroRepository;
+use Illuminate\Http\Request;
 
 class CarroController extends Controller
 {
+    private $carroModel;
+
+    public function __construct(Carro $carroModel) {
+        $this->carroModel = $carroModel;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $carroRepository = new CarroRepository($this->carroModel);
+        
+        if ($request->has('atributos_modelo')) {
+            $atributosModelo = "modelo:$request->atributos_modelo";
+            $carroRepository->selectAtributesRegistroRelacionamento($atributosModelo);
+        } else {
+            $carroRepository->selectAtributesRegistroRelacionamento('modelo');
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        if ($request->has('filtro')) {
+            $carroRepository->filtro($request->filtro);
+        }
+
+        if ($request->has('atributos')) {
+            $carroRepository->selectAtributes($request->atributos);
+        }
+
+        return response()->json($carroRepository->getResultado(), 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreCarroRequest  $request
+     * @param  Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCarroRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate($this->carroModel->rules(), $this->carroModel->feedback());
+        $carro = $this->carroModel->create([
+            'modelo_id' => $request->modelo_id,
+            'placa' => $request->placa,
+            'disponivel' => $request->disponivel,
+            'km' => $request->km,
+        ]);
+        return response()->json($carro, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Carro  $carro
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Carro $carro)
+    public function show(int $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Carro  $carro
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Carro $carro)
-    {
-        //
+        $carro = $this->carroModel->with('modelo')->find($id);
+        if (empty($carro)) {
+            return response()->json([], 404);
+        }
+        return response()->json($carro, 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateCarroRequest  $request
-     * @param  \App\Models\Carro  $carro
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCarroRequest $request, Carro $carro)
+    public function update(Request $request, int $id)
     {
-        //
+        $carro = $this->carroModel->find($id);
+        if (empty($carro)) {
+            return response()->json([], 404);
+        }
+
+        if ($request->method() === 'PUT') {
+            $request->validate($this->carroModel->rules(), $this->carroModel->feedback());
+        }
+
+        if ($request->method() === 'PATCH') {
+            $regrasDinamicas = array();
+            foreach ($this->carroModel->rules() as $key => $value) {
+                if (array_key_exists($key, $request->all())) {
+                    $regrasDinamicas[$key] = $value;
+                }
+            }
+            $request->validate($regrasDinamicas, $this->carroModel->feedback());
+        }
+        $carro->fill($request->all());
+        $carro->save();
+        return response()->json($carro, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Carro  $carro
+     * @param  Integer $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Carro $carro)
+    public function destroy(int $id)
     {
-        //
+        $carro = $this->carroModel->find($id);
+        if (empty($carro)) {
+            return response()->json([], 404);
+        }
+        $carro->delete();
+        return response()->json([], 204);
     }
 }
