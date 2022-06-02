@@ -81,7 +81,6 @@ class MarcaController extends Controller
 
         if ($request->method() === 'PATCH') {
             $regrasDinamicas = array();
-
             foreach ($marca->rules() as $key => $value) {
                 if (array_key_exists($key, $request->all())) {
                     $regrasDinamicas[$key] = $value;
@@ -89,17 +88,15 @@ class MarcaController extends Controller
             }
             $request->validate($regrasDinamicas, $marca->feedback());
         }
-        
-        if (empty($image)) {
-            $image = $marca->imagem;
-        } else {
+
+        if ($image) {
             Storage::disk('public')->delete($marca->imagem);
             $image = $image->store('imagens', 'public');
         }
 
-        $update = $request->all();
-        $update['imagem'] = $image;
-        $marca->update($update);
+        $marca->fill($request->all());
+        $marca->imagem = $image ?? $marca->imagem;
+        $marca->save();
         return response()->json($marca, 200);
     }
 

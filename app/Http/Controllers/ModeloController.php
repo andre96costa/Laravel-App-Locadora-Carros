@@ -73,33 +73,34 @@ class ModeloController extends Controller
     public function update(Request $request, int $id)
     {
         $modelo = $this->modeloModel->find($id);
+        $imagem = $request->file('imagem');
+
+        if (empty($modelo)) {
+            return response()->json([], 404);
+        }
+
+        if ($request->method() === 'PUT') {
+            $request->validate($modelo->rules(), $modelo->feedback());
+        }
 
         if ($request->method() === 'PATCH') {
             $regrasDinamicas = array();
-
             foreach ($modelo->rules() as $key => $value) {
                 if (array_key_exists($key, $request->all())) {
                     $regrasDinamicas[$key] = $value;
                 }
             }
             $request->validate($regrasDinamicas, $modelo->feedback());
-        } else {
-            $request->validate($modelo->rules(), $modelo->feedback());
+        }
+        
+        if ($imagem) {
+            Storage::disk('public')->delete($modelo->imagem);
+            $imagem = $imagem->store('imagens/modelos', 'public');
         }
 
-        if ($request->file('imagem')) {
-            Storage::disk('public')->delete($modelo->imagem);
-        }
-        $imagem = $request->file('imagem')->store('imagens/modelos', 'public');
-        $modelo->update([
-            'marca_id' => $request->marca_id,
-            'nome' => $request->nome,
-            'imagem' => $imagem,
-            'numero_portas' => $request->numero_portas,
-            'lugares' => $request->lugares,
-            'air_bag' => $request->air_bag,
-            'abs' => $request->abs,
-        ]);
+        $modelo->fill($request->all());
+        $modelo->imagem = $imagem ?? $modelo->imagem;
+        $modelo->save();
         return response()->json($modelo, 200);
     }
 
