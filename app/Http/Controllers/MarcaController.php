@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marca;
+use App\Repositories\MarcaRepository;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,14 +15,32 @@ class MarcaController extends Controller
     public function __construct(Marca $marca) {
         $this->marca = $marca;
     }
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json($this->marca->with('modelos')->get(), 200);
+        $marcaRepository = new MarcaRepository($this->marca);
+        
+        if ($request->has('atributos_modelos')) {
+            $atributosModelos = "modelos:$request->atributos_modelos";
+            $marcaRepository->selectAtributesRegistroRelacionamento($atributosModelos);
+        } else {
+            $marcaRepository->selectAtributesRegistroRelacionamento('modelos');
+        }
+
+        if ($request->has('filtro')) {
+            $marcaRepository->filtro($request->filtro);
+        }
+
+        if ($request->has('atributos')) {
+            $marcaRepository->selectAtributes($request->atributos);
+        }
+
+        return response()->json($marcaRepository->getResultado(), 200);
     }
 
     /**
