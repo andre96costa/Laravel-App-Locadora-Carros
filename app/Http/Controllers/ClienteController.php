@@ -21,7 +21,7 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        //$clienteRepository = new ClienteRepository($this->clienteModel);
+        $clienteRepository = new ClienteRepository($this->clienteModel);
         
         // if ($request->has('atributos_modelo')) {
         //     $atributosModelo = "modelo:$request->atributos_modelo";
@@ -30,15 +30,15 @@ class ClienteController extends Controller
         //     $carroRepository->selectAtributesRegistroRelacionamento('modelo');
         // }
 
-        // if ($request->has('filtro')) {
-        //     $carroRepository->filtro($request->filtro);
-        // }
+        if ($request->has('filtro')) {
+            $clienteRepository->filtro($request->filtro);
+        }
 
-        // if ($request->has('atributos')) {
-        //     $carroRepository->selectAtributes($request->atributos);
-        // }
+        if ($request->has('atributos')) {
+            $clienteRepository->selectAtributes($request->atributos);
+        }
         
-        return response()->json($this->clienteModel->all(), 200);
+        return response()->json($clienteRepository->getResultado(), 200);
     }
 
     /**
@@ -62,7 +62,7 @@ class ClienteController extends Controller
      */
     public function show(int $id)
     {
-        $cliente = $this->clienteModel->find($id);
+        $cliente = $this->clienteModel->with('carros')->find($id);
         if (empty($cliente)) {
             return response()->json([], 404);
         }

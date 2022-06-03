@@ -42,4 +42,9 @@ class Carro extends Model
     {
         return $this->belongsTo(Modelo::class, 'modelo_id', 'id');
     }
+
+    public function clientes()
+    {
+        return $this->belongsToMany(Cliente::class, 'locacoes', 'carro_id', 'cliente_id');
+    }
 }

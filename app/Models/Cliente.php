@@ -28,4 +28,9 @@ class Cliente extends Model
             'nome.max' => 'O nome deve ter no maximo 50 carecteres',
         ];
     }
+
+    public function carros()
+    {
+        return $this->belongsToMany(Carro::class, 'locacoes', 'cliente_id', 'carro_id');
+    }
 }
