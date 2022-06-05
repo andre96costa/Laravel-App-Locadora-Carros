@@ -36,6 +36,9 @@ class CreateModelosTable extends Migration
      */
     public function down()
     {
+        Schema::table('modelos', function(Blueprint $table) {
+            $table->dropForeign('modelos_marca_id_foreign');
+        });
         Schema::dropIfExists('modelos');
     }
 }

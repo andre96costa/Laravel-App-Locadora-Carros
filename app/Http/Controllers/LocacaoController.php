@@ -20,7 +20,7 @@ class LocacaoController extends Controller
      */
     public function index(Request $request)
     {
-        $locacaoeRepository = new LocacaoRepository($this->clienteModel);
+        $locacaoeRepository = new LocacaoRepository($this->locacaoModel);
         
         // if ($request->has('atributos_modelo')) {
         //     $atributosModelo = "modelo:$request->atributos_modelo";

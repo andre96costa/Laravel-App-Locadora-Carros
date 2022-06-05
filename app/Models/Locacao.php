@@ -24,11 +24,11 @@ class Locacao extends Model
     public function rules()
     {
         return [
-            'cliente_id' => 'exists:clientes,id',
-            'carro_id' => 'exists:carros,id',
+            'cliente_id' => 'required|exists:clientes,id',
+            'carro_id' => 'required|exists:carros,id',
             'data_inicio_periodo' => 'required|date_format:Y-m-d',
             'data_final_previsto_periodo' => 'required|date_format:Y-m-d',
-            'data_final_realizado_periodo' => 'required|date_format:Y-m-d',
+            'data_final_realizado_periodo' => 'date_format:Y-m-d',
             'valor_diaria' => 'required|integer',
             'km_inicial' => 'required|integer',
             'km_final' => 'integer',
