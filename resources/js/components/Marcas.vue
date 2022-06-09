@@ -8,18 +8,18 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <input-container-component titulo="ID" id="idInput" id-help="idHelp" texto-ajuda="Opcional. Informe o ID da Marca.">
-                                    <input type="number" class="form-control" id="idInput" aria-describedby="idHelp">
+                                    <input v-model="busca.id" type="number" class="form-control" id="idInput" aria-describedby="idHelp">
                                 </input-container-component>  
                             </div>
                             <div class="col mb-3">
                                 <input-container-component  titulo="Marca" id="nomeMarcaInput" id-help="nomeMarcaInputHelp" texto-ajuda="Opcional. Informe o Nome da Marca.">
-                                    <input type="text" class="form-control" id="nomeMarcaInput" aria-describedby="nomeMarcaInputHelp">
+                                    <input v-model="busca.nome" type="text" class="form-control" id="nomeMarcaInput" aria-describedby="nomeMarcaInputHelp">
                                 </input-container-component>
                             </div>
                         </div>
                     </template>
                     <template v-slot:rodape>
-                        <button type="submit" class="btn btn-primary btn-sm float-right">Pesquisar</button>
+                        <button type="submit" class="btn btn-primary btn-sm float-right" v-on:click="pesquisar()">Pesquisar</button>
                     </template>
                 </card-component>
 
@@ -76,11 +76,14 @@
         data() {
             return {
                 urlBase: 'http://localhost:8000/api/v1/marca',
+                urlPaginacao: '',
+                urlFiltro: '',
                 nomeMarca: '',
                 arquivoImagem: [],
                 transacaoStatus: '',
                 transacoesDetalhes: {},
                 marcas: {data: []},
+                busca: { id: '', nome: ''},
             }
         },
         methods: {
@@ -114,13 +117,14 @@
                 });
             },
             carregarLista() {
+                let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
                 let config = {
                     headers: {
                         'Accept': 'application/json',
                         'Authorization': this.tokenApi,
                     },
                 }
-                axios.get(this.urlBase, config)
+                axios.get(url, config)
                 .then(response => {
                     this.marcas = response.data;
                 })
@@ -130,9 +134,26 @@
             },
             paginacao(l) {
                 if (l.url) {
-                    this.urlBase = l.url;
+                    this.urlPaginacao = l.url.split('?')[1];
                     this.carregarLista();
                 }
+            },
+            pesquisar() {
+                let filtro = '';
+                this.urlFiltro = '';
+                for (const key in this.busca) {
+                    if (this.busca[key]) {
+                        if (filtro != '') {
+                            filtro += ';'
+                        }
+                        filtro += key+':like:%'+this.busca[key]+'%';
+                    }
+                }
+                if (filtro != '') {
+                    this.urlPaginacao = 'page=1';
+                    this.urlFiltro = '&filtro='+filtro;
+                }
+                this.carregarLista();
             },
         },
         computed: {

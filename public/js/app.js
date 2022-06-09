@@ -5602,12 +5602,18 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       urlBase: 'http://localhost:8000/api/v1/marca',
+      urlPaginacao: '',
+      urlFiltro: '',
       nomeMarca: '',
       arquivoImagem: [],
       transacaoStatus: '',
       transacoesDetalhes: {},
       marcas: {
         data: []
+      },
+      busca: {
+        id: '',
+        nome: ''
       }
     };
   },
@@ -5644,13 +5650,14 @@ __webpack_require__.r(__webpack_exports__);
     carregarLista: function carregarLista() {
       var _this2 = this;
 
+      var url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
       var config = {
         headers: {
           'Accept': 'application/json',
           'Authorization': this.tokenApi
         }
       };
-      axios.get(this.urlBase, config).then(function (response) {
+      axios.get(url, config).then(function (response) {
         _this2.marcas = response.data;
       })["catch"](function (error) {
         console.log(error);
@@ -5658,9 +5665,30 @@ __webpack_require__.r(__webpack_exports__);
     },
     paginacao: function paginacao(l) {
       if (l.url) {
-        this.urlBase = l.url;
+        this.urlPaginacao = l.url.split('?')[1];
         this.carregarLista();
       }
+    },
+    pesquisar: function pesquisar() {
+      var filtro = '';
+      this.urlFiltro = '';
+
+      for (var key in this.busca) {
+        if (this.busca[key]) {
+          if (filtro != '') {
+            filtro += ';';
+          }
+
+          filtro += key + ':like:%' + this.busca[key] + '%';
+        }
+      }
+
+      if (filtro != '') {
+        this.urlPaginacao = 'page=1';
+        this.urlFiltro = '&filtro=' + filtro;
+      }
+
+      this.carregarLista();
     }
   },
   computed: {
@@ -29495,11 +29523,32 @@ var render = function () {
                               },
                               [
                                 _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.busca.id,
+                                      expression: "busca.id",
+                                    },
+                                  ],
                                   staticClass: "form-control",
                                   attrs: {
                                     type: "number",
                                     id: "idInput",
                                     "aria-describedby": "idHelp",
+                                  },
+                                  domProps: { value: _vm.busca.id },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.busca,
+                                        "id",
+                                        $event.target.value
+                                      )
+                                    },
                                   },
                                 }),
                               ]
@@ -29525,11 +29574,32 @@ var render = function () {
                               },
                               [
                                 _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.busca.nome,
+                                      expression: "busca.nome",
+                                    },
+                                  ],
                                   staticClass: "form-control",
                                   attrs: {
                                     type: "text",
                                     id: "nomeMarcaInput",
                                     "aria-describedby": "nomeMarcaInputHelp",
+                                  },
+                                  domProps: { value: _vm.busca.nome },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.busca,
+                                        "nome",
+                                        $event.target.value
+                                      )
+                                    },
                                   },
                                 }),
                               ]
@@ -29551,6 +29621,11 @@ var render = function () {
                         {
                           staticClass: "btn btn-primary btn-sm float-right",
                           attrs: { type: "submit" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.pesquisar()
+                            },
+                          },
                         },
                         [_vm._v("Pesquisar")]
                       ),
