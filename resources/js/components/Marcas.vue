@@ -25,10 +25,23 @@
 
                 <card-component titulo="Relação de marcas">
                     <template v-slot:conteudo>
-                        <table-component></table-component>
+                        <table-component 
+                            v-bind:dados="marcas.data" 
+                            v-bind:titulos="{
+                                id: {titulo: 'ID', tipo: 'text'},
+                                nome: {titulo: 'Nome', tipo: 'text'},
+                                imagem: {titulo: 'Imagem', tipo: 'imagen'},
+                            }"
+                        ></table-component>
                     </template>
                     <template v-slot:rodape>
-                        <button type="button" class="btn btn-primary btn-sm float-right" data-bs-toggle="modal" data-bs-target="#marcaModal">Adicionar</button>
+                        <div></div>
+                        <paginate-component>
+                            <li v-for="(l, key) in marcas.links" :key="key" v-bind:class="l.active ? 'page-item active' : 'page-item'">
+                                <a class="page-link" href="#" v-html="l.label" v-on:click="paginacao(l)" ></a>
+                            </li>
+                        </paginate-component>
+                        <button type="button" class="btn btn-primary btn-sm float-right align-self-end" style="height: 28px;" data-bs-toggle="modal" data-bs-target="#marcaModal">Adicionar</button>
                     </template>
                 </card-component>
             </div>
@@ -67,7 +80,7 @@
                 arquivoImagem: [],
                 transacaoStatus: '',
                 transacoesDetalhes: {},
-                marcas: [],
+                marcas: {data: []},
             }
         },
         methods: {
@@ -114,6 +127,12 @@
                 .catch(error => {
                     console.log(error);
                 });
+            },
+            paginacao(l) {
+                if (l.url) {
+                    this.urlBase = l.url;
+                    this.carregarLista();
+                }
             },
         },
         computed: {

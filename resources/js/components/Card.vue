@@ -6,14 +6,13 @@
 
             </slot>
         </div>
-        <div class="card-footer d-grid gap-2 d-md-flex justify-content-md-end">
+        <div class="card-footer d-grid gap-2 d-md-flex justify-content-between align-content-center">
             <slot name="rodape">
 
             </slot>
         </div>
     </div>
 </template>
-
 <script>
 export default {
     props: ['titulo']
