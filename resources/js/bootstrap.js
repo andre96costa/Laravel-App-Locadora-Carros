@@ -1,3 +1,5 @@
+const { default: axios } = require('axios');
+
 window._ = require('lodash');
 
 try {
@@ -30,3 +32,39 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/* interceptar os requests da aplicacao */
+axios.interceptors.request.use(
+    config => {
+        config.headers.Accept = 'application/json'
+
+        let token = document.cookie.split(';').find(row => row.includes('token='));
+        token = token.split("=")[1];
+
+        config.headers.Authorization = 'Bearer '+token;
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
+
+/* interceptar as responses da aplicacao */
+axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    error => {
+        if (error.response.status == 401 && error.response.data.message == 'Token has expired') {
+            axios.post('http://localhost:8000/api/refresh')
+            .then((response) => {
+                document.cookie = 'token='+response.data.token+';SameSite=Lax';
+                window.location.reload();
+            })
+            .catch((error) => {
+
+            });
+        }
+        return Promise.reject(error);
+    }
+);

@@ -6981,9 +6981,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('imagem', this.arquivoImagem[0]);
       var config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Accept': 'application/json',
-          'Authorization': this.tokenApi
+          'Content-Type': 'multipart/form-data'
         }
       };
       axios.post(this.urlBase, formData, config).then(function (response) {
@@ -7001,13 +6999,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
-      var config = {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': this.tokenApi
-        }
-      };
-      axios.get(url, config).then(function (response) {
+      axios.get(url).then(function (response) {
         _this2.marcas = response.data;
       })["catch"](function (error) {
         console.log(error);
@@ -7044,13 +7036,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       var url = this.urlBase + '/' + this.$store.state.item.id;
-      var config = {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': this.tokenApi
-        }
-      };
-      axios["delete"](url, config).then(function (response) {
+      axios["delete"](url).then(function (response) {
         _this3.$store.state.transacao.mensagem = 'O registro foi removido com sucesso!';
         _this3.$store.state.transacao.status = 'removido';
 
@@ -7074,9 +7060,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Accept': 'application/json',
-          'Authorization': this.tokenApi
+          'Content-Type': 'multipart/form-data'
         }
       };
       axios.post(url, formData, config).then(function (response) {
@@ -7095,14 +7079,6 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.state.transacao.status = '';
       this.$store.state.transacao.mensagem = '';
       this.$store.state.transacao.dados = '';
-    }
-  },
-  computed: {
-    tokenApi: function tokenApi() {
-      var token = document.cookie.split(';').find(function (row) {
-        return row.startsWith('token=');
-      }).split("=");
-      return "Bearer " + token[1];
     }
   }
 });
@@ -7332,6 +7308,9 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
   \***********************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+var _require = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"),
+    axios = _require["default"];
+
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 try {
@@ -7359,6 +7338,34 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/* interceptar os requests da aplicacao */
+
+axios.interceptors.request.use(function (config) {
+  config.headers.Accept = 'application/json';
+  var token = document.cookie.split(';').find(function (row) {
+    return row.includes('token=');
+  });
+  token = token.split("=")[1];
+  config.headers.Authorization = 'Bearer ' + token;
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+/* interceptar as responses da aplicacao */
+
+axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if (error.response.status == 401 && error.response.data.message == 'Token has expired') {
+    axios.post('http://localhost:8000/api/refresh').then(function (response) {
+      document.cookie = 'token=' + response.data.token + ';SameSite=Lax';
+      window.location.reload();
+    })["catch"](function (error) {});
+  }
+
+  return Promise.reject(error);
+});
 
 /***/ }),
 

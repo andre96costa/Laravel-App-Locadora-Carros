@@ -180,8 +180,6 @@ import InputContainer from './InputContainer.vue';
                 let config = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        'Accept': 'application/json',
-                        'Authorization': this.tokenApi,
                     },
                 }
                 axios.post(this.urlBase, formData, config)
@@ -198,13 +196,7 @@ import InputContainer from './InputContainer.vue';
             },
             carregarLista() {
                 let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
-                let config = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': this.tokenApi,
-                    },
-                }
-                axios.get(url, config)
+                axios.get(url)
                 .then(response => {
                     this.marcas = response.data;
                 })
@@ -237,13 +229,7 @@ import InputContainer from './InputContainer.vue';
             },
             remover() {
                 let url = this.urlBase+'/'+this.$store.state.item.id;
-                let config = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': this.tokenApi,
-                    }
-                }
-                axios.delete(url, config)
+                axios.delete(url)
                 .then((response) => {
                     this.$store.state.transacao.mensagem = 'O registro foi removido com sucesso!';
                     this.$store.state.transacao.status = 'removido';
@@ -265,8 +251,6 @@ import InputContainer from './InputContainer.vue';
                 let config = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        'Accept': 'application/json',
-                        'Authorization': this.tokenApi,
                     }
                 };
 
@@ -288,14 +272,6 @@ import InputContainer from './InputContainer.vue';
                 this.$store.state.transacao.mensagem = '';
                 this.$store.state.transacao.dados = '';
             }
-        },
-        computed: {
-            tokenApi() {
-                let token = document.cookie.split(';')
-                .find(row => row.startsWith('token='))
-                .split("=");
-                return "Bearer "+token[1];
-            },
         },
     };
 </script>
