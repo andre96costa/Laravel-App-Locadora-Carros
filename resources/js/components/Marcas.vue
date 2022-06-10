@@ -28,7 +28,7 @@
                         <table-component 
                             v-bind:dados="marcas.data" 
                             v-bind:visualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#marcaModalVisualizar'}"
-                            v-bind:atualizar="true"
+                            v-bind:atualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#marcaModalAtualizar'}" 
                             v-bind:remover="{visivel: true, dataToggle: 'modal', dataTarget: '#marcaModalRemover'}"
                             v-bind:titulos="{
                                 id: {titulo: 'ID', tipo: 'text'},
@@ -97,7 +97,7 @@
                 <alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Remoção de registro" v-if="$store.state.transacao.status == 'removido'"></alert-component>
                 <alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Errou ao remover o retistro" v-if="$store.state.transacao.status == 'erro'"></alert-component>
             </template>
-            <template v-slot:conteudo v-if="transacaoStatus != 'removido'">
+            <template v-slot:conteudo v-if="$store.state.transacao.status != 'removido'">
                 <span>Tem certeza que deseja remover está marca?</span>
                 <input-container titulo="ID">
                     <input type="text" class="form-control" v-bind:value="$store.state.item.id" disabled>
@@ -108,7 +108,36 @@
             </template>
             <template v-slot:rodape>
                 <div class="d-flex justify-content-between" style="width: 100%;">
-                    <button type="button" class="btn btn-danger" v-on:click="remover()" v-if="transacaoStatus != 'removido'">Remover</button>
+                    <button type="button" class="btn btn-danger" v-on:click="remover()" v-if="$store.state.transacao.status != 'removido'">Remover</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </template>
+        </modal-component>
+
+        <!-- MODAL DE ATUALIZACAO DE MARCAS -->
+        <modal-component id="marcaModalAtualizar" title="Atualizar Marca" >
+            <template v-slot:alertas>
+                <alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Atualização de registro" v-if="$store.state.transacao.status == 'atualizar'"></alert-component>
+                <alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Errou ao atualizar o retistro" v-if="$store.state.transacao.status == 'erro'"></alert-component>
+            </template>
+            <template v-slot:conteudo>
+                <input-container titulo="ID">
+                    <input type="text" class="form-control" v-bind:value="$store.state.item.id" disabled>
+                </input-container>
+                <input-container titulo="Nome">
+                    <input type="text" class="form-control" v-model="$store.state.item.nome">
+                </input-container>
+                <input-container titulo="Logo Atual">
+                    <img v-bind:src="'/storage/'+$store.state.item.imagem" :alt="'imagem-'+$store.state.item.nome" v-if="$store.state.item.imagem">
+                </input-container>
+                <input-container-component titulo="Enviar imagem" id="logoAtualizaInput" texto-ajuda="Selecione uma imagem no formato PNG">
+                    <br>
+                    <input type="file" class="form-control-file" id="logoAtualizaInput" v-on:change="carregarImagem($event)">
+                </input-container-component> 
+            </template>
+            <template v-slot:rodape>
+                <div class="d-flex justify-content-between" style="width: 100%;">
+                    <button type="button" class="btn btn-primary" v-on:click="atualizar()" >Atualizar</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
             </template>
@@ -120,7 +149,7 @@
 <script>
 import InputContainer from './InputContainer.vue';
     export default {
-  components: { InputContainer },
+    components: { InputContainer },
         mounted() {
             this.carregarLista();
         },
@@ -223,6 +252,35 @@ import InputContainer from './InputContainer.vue';
                     this.$store.state.transacao.mensagem = 'Houve um erro ao tentar remover o registro!';
                     this.$store.state.transacao.status = 'erro';
                 });
+            },
+            atualizar() {
+                let url = this.urlBase+'/'+this.$store.state.item.id;
+                let formData = new FormData();
+                formData.append('_method', 'PATCH');
+                formData.append('nome', this.$store.state.item.nome);
+                if (this.arquivoImagem[0]) {
+                    formData.append('imagem', this.arquivoImagem[0]);
+                }
+                let config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Accept': 'application/json',
+                        'Authorization': this.tokenApi,
+                    }
+                };
+
+                axios.post(url, formData, config)
+                .then((response) => {
+                    logoAtualizaInput.value = '';
+                    this.$store.state.transacao.mensagem = 'Registro atualizado!';
+                    this.$store.state.transacao.status = 'atualizar';
+                    this.carregarLista();
+                })
+                .catch((errors) => {
+                    this.$store.state.transacao.mensagem = '';
+                    this.$store.state.transacao.dados = errors.response.data.errors;
+                    this.$store.state.transacao.status = 'erro';
+                }); 
             },
             clearStore() {
                 this.$store.state.transacao.status = '';

@@ -6911,6 +6911,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -7028,6 +7057,37 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         _this3.$store.state.transacao.mensagem = 'Houve um erro ao tentar remover o registro!';
         _this3.$store.state.transacao.status = 'erro';
+      });
+    },
+    atualizar: function atualizar() {
+      var _this4 = this;
+
+      var url = this.urlBase + '/' + this.$store.state.item.id;
+      var formData = new FormData();
+      formData.append('_method', 'PATCH');
+      formData.append('nome', this.$store.state.item.nome);
+
+      if (this.arquivoImagem[0]) {
+        formData.append('imagem', this.arquivoImagem[0]);
+      }
+
+      var config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+          'Authorization': this.tokenApi
+        }
+      };
+      axios.post(url, formData, config).then(function (response) {
+        logoAtualizaInput.value = '';
+        _this4.$store.state.transacao.mensagem = 'Registro atualizado!';
+        _this4.$store.state.transacao.status = 'atualizar';
+
+        _this4.carregarLista();
+      })["catch"](function (errors) {
+        _this4.$store.state.transacao.mensagem = '';
+        _this4.$store.state.transacao.dados = errors.response.data.errors;
+        _this4.$store.state.transacao.status = 'erro';
       });
     },
     clearStore: function clearStore() {
@@ -31032,7 +31092,11 @@ var render = function () {
                             dataToggle: "modal",
                             dataTarget: "#marcaModalVisualizar",
                           },
-                          atualizar: true,
+                          atualizar: {
+                            visivel: true,
+                            dataToggle: "modal",
+                            dataTarget: "#marcaModalAtualizar",
+                          },
                           remover: {
                             visivel: true,
                             dataToggle: "modal",
@@ -31333,7 +31397,7 @@ var render = function () {
               },
               proxy: true,
             },
-            _vm.transacaoStatus != "removido"
+            _vm.$store.state.transacao.status != "removido"
               ? {
                   key: "conteudo",
                   fn: function () {
@@ -31373,7 +31437,7 @@ var render = function () {
                       staticStyle: { width: "100%" },
                     },
                     [
-                      _vm.transacaoStatus != "removido"
+                      _vm.$store.state.transacao.status != "removido"
                         ? _c(
                             "button",
                             {
@@ -31407,6 +31471,156 @@ var render = function () {
           null,
           true
         ),
+      }),
+      _vm._v(" "),
+      _c("modal-component", {
+        attrs: { id: "marcaModalAtualizar", title: "Atualizar Marca" },
+        scopedSlots: _vm._u([
+          {
+            key: "alertas",
+            fn: function () {
+              return [
+                _vm.$store.state.transacao.status == "atualizar"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "success",
+                        detalhes: _vm.$store.state.transacao,
+                        titulo: "Atualização de registro",
+                      },
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$store.state.transacao.status == "erro"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "danger",
+                        detalhes: _vm.$store.state.transacao,
+                        titulo: "Errou ao atualizar o retistro",
+                      },
+                    })
+                  : _vm._e(),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "conteudo",
+            fn: function () {
+              return [
+                _c("input-container", { attrs: { titulo: "ID" } }, [
+                  _c("input", {
+                    staticClass: "form-control",
+                    attrs: { type: "text", disabled: "" },
+                    domProps: { value: _vm.$store.state.item.id },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("input-container", { attrs: { titulo: "Nome" } }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.$store.state.item.nome,
+                        expression: "$store.state.item.nome",
+                      },
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.$store.state.item.nome },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.$store.state.item,
+                          "nome",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("input-container", { attrs: { titulo: "Logo Atual" } }, [
+                  _vm.$store.state.item.imagem
+                    ? _c("img", {
+                        attrs: {
+                          src: "/storage/" + _vm.$store.state.item.imagem,
+                          alt: "imagem-" + _vm.$store.state.item.nome,
+                        },
+                      })
+                    : _vm._e(),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "input-container-component",
+                  {
+                    attrs: {
+                      titulo: "Enviar imagem",
+                      id: "logoAtualizaInput",
+                      "texto-ajuda": "Selecione uma imagem no formato PNG",
+                    },
+                  },
+                  [
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "form-control-file",
+                      attrs: { type: "file", id: "logoAtualizaInput" },
+                      on: {
+                        change: function ($event) {
+                          return _vm.carregarImagem($event)
+                        },
+                      },
+                    }),
+                  ]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "rodape",
+            fn: function () {
+              return [
+                _c(
+                  "div",
+                  {
+                    staticClass: "d-flex justify-content-between",
+                    staticStyle: { width: "100%" },
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.atualizar()
+                          },
+                        },
+                      },
+                      [_vm._v("Atualizar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary",
+                        attrs: { type: "button", "data-bs-dismiss": "modal" },
+                      },
+                      [_vm._v("Cancelar")]
+                    ),
+                  ]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+        ]),
       }),
     ],
     1
@@ -31553,7 +31767,7 @@ var render = function () {
             ])
           }),
           _vm._v(" "),
-          _vm.visualizar.visivel || _vm.atualizar || _vm.remover.visivel
+          _vm.visualizar.visivel || _vm.atualizar.visivel || _vm.remover.visivel
             ? _c("th")
             : _vm._e(),
         ],
@@ -31613,10 +31827,21 @@ var render = function () {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _vm.atualizar
+              _vm.atualizar.visivel
                 ? _c(
                     "button",
-                    { staticClass: "btn btn-outline-primary btn-sm" },
+                    {
+                      staticClass: "btn btn-outline-primary btn-sm",
+                      attrs: {
+                        "data-bs-toggle": _vm.atualizar.dataToggle,
+                        "data-bs-target": _vm.atualizar.dataTarget,
+                      },
+                      on: {
+                        click: function ($event) {
+                          return _vm.setStore(obj)
+                        },
+                      },
+                    },
                     [_vm._v("Atualizar")]
                   )
                 : _vm._e(),
