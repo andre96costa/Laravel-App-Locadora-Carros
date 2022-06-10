@@ -27,6 +27,9 @@
                     <template v-slot:conteudo>
                         <table-component 
                             v-bind:dados="marcas.data" 
+                            v-bind:visualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#marcaModalVisualizar'}"
+                            v-bind:atualizar="true"
+                            v-bind:remover="true"
                             v-bind:titulos="{
                                 id: {titulo: 'ID', tipo: 'text'},
                                 nome: {titulo: 'Nome', tipo: 'text'},
@@ -46,6 +49,8 @@
                 </card-component>
             </div>
         </div>
+
+        <!-- MODAL INCLUSAO DE MARCA -->
         <modal-component id="marcaModal" title="Adicionar Nova Marca" >
             <template v-slot:alertas>
                 <alert-component tipo="success" :detalhes="transacoesDetalhes" titulo="Cadastro realizado com sucesso" v-if="transacaoStatus == 'adicionado'"></alert-component>
@@ -65,11 +70,34 @@
                 <button type="button" class="btn btn-primary" v-on:click="salvar()">Adicionar</button>
             </template>
         </modal-component>
+
+        <!-- MODAL DE VISUALIZAÇÃO DE MARCA -->
+        <modal-component id="marcaModalVisualizar" title="Visualizar Nova Marca" >
+            <template v-slot:alertas>
+            </template>
+            <template v-slot:conteudo>
+                {{$store.state.item}}
+                <input-container titulo="ID">
+                    <input type="text" class="form-control" v-bind:value="$store.state.item.id" disabled>
+                </input-container>
+                <input-container titulo="Nome">
+                    <input type="text" class="form-control" v-bind:value="$store.state.item.nome" disabled>
+                </input-container>
+                <input-container titulo="Logo">
+                    <img v-bind:src="'/storage/'+$store.state.item.imagem" :alt="'imagem-'+$store.state.item.nome" v-if="$store.state.item.imagem">
+                </input-container>
+            </template>
+            <template v-slot:rodape>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </template>
+        </modal-component>
     </div>
 </template>
 
 <script>
+import InputContainer from './InputContainer.vue';
     export default {
+  components: { InputContainer },
         mounted() {
             this.carregarLista();
         },
