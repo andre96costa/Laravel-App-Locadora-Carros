@@ -4,7 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">{{ title }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="clearStore()"></button>
                 </div>
                 <div class="modal-body">
                     <slot name="alertas"></slot>
@@ -21,5 +21,12 @@
 <script>
 export default {
     props: ['id', 'title'],
+    methods: {
+        clearStore() {
+            this.$store.state.transacao.status = '';
+            this.$store.state.transacao.mensagem = '';
+            this.$store.state.transacao.dados = '';
+        }
+    }
 }
 </script>

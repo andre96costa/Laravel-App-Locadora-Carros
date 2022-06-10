@@ -29,7 +29,7 @@
                             v-bind:dados="marcas.data" 
                             v-bind:visualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#marcaModalVisualizar'}"
                             v-bind:atualizar="true"
-                            v-bind:remover="true"
+                            v-bind:remover="{visivel: true, dataToggle: 'modal', dataTarget: '#marcaModalRemover'}"
                             v-bind:titulos="{
                                 id: {titulo: 'ID', tipo: 'text'},
                                 nome: {titulo: 'Nome', tipo: 'text'},
@@ -53,8 +53,8 @@
         <!-- MODAL INCLUSAO DE MARCA -->
         <modal-component id="marcaModal" title="Adicionar Nova Marca" >
             <template v-slot:alertas>
-                <alert-component tipo="success" :detalhes="transacoesDetalhes" titulo="Cadastro realizado com sucesso" v-if="transacaoStatus == 'adicionado'"></alert-component>
-                <alert-component tipo="danger" :detalhes="transacoesDetalhes" titulo="Errou ao cadastrar a marca" v-if="transacaoStatus == 'erro'"></alert-component>
+                <alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Cadastro realizado com sucesso" v-if="$store.state.transacao.status == 'adicionado'"></alert-component>
+                <alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Errou ao cadastrar a marca" v-if="$store.state.transacao.status == 'erro'"></alert-component>
             </template>
             <template v-slot:conteudo>
                 <input-container-component titulo="Nome da Marca" id="nomeInput">
@@ -66,7 +66,7 @@
                 </input-container-component> 
             </template>
             <template v-slot:rodape>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="clearStore()">Cancelar</button>
                 <button type="button" class="btn btn-primary" v-on:click="salvar()">Adicionar</button>
             </template>
         </modal-component>
@@ -76,7 +76,6 @@
             <template v-slot:alertas>
             </template>
             <template v-slot:conteudo>
-                {{$store.state.item}}
                 <input-container titulo="ID">
                     <input type="text" class="form-control" v-bind:value="$store.state.item.id" disabled>
                 </input-container>
@@ -91,7 +90,31 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </template>
         </modal-component>
+
+        <!-- MODAL DE REMOÇÃO DE MARCAS -->
+        <modal-component id="marcaModalRemover" title="Remover Marca" >
+            <template v-slot:alertas>
+                <alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Remoção de registro" v-if="$store.state.transacao.status == 'removido'"></alert-component>
+                <alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Errou ao remover o retistro" v-if="$store.state.transacao.status == 'erro'"></alert-component>
+            </template>
+            <template v-slot:conteudo v-if="transacaoStatus != 'removido'">
+                <span>Tem certeza que deseja remover está marca?</span>
+                <input-container titulo="ID">
+                    <input type="text" class="form-control" v-bind:value="$store.state.item.id" disabled>
+                </input-container>
+                <input-container titulo="Nome">
+                    <input type="text" class="form-control" v-bind:value="$store.state.item.nome" disabled>
+                </input-container>
+            </template>
+            <template v-slot:rodape>
+                <div class="d-flex justify-content-between" style="width: 100%;">
+                    <button type="button" class="btn btn-danger" v-on:click="remover()" v-if="transacaoStatus != 'removido'">Remover</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </template>
+        </modal-component>
     </div>
+
 </template>
 
 <script>
@@ -119,6 +142,8 @@ import InputContainer from './InputContainer.vue';
                 this.arquivoImagem = e.target.files
             },
             salvar() {
+                this.$store.state.transacao.status = '';
+                this.$store.state.transacao.mensagem = '';
                 let formData = new FormData();
                 formData.append('nome', this.nomeMarca);
                 formData.append('imagem', this.arquivoImagem[0]);
@@ -131,17 +156,14 @@ import InputContainer from './InputContainer.vue';
                 }
                 axios.post(this.urlBase, formData, config)
                 .then(response => {
-                    this.transacaoStatus = 'adicionado';
-                    this.transacoesDetalhes = {
-                        mensagem: 'ID do registro '+ response.data.id 
-                    };
+                    this.$store.state.transacao.mensagem = 'ID do registro '+ response.data.id;
+                    this.$store.state.transacao.status = 'adicionado';
+                    this.carregarLista();
                 })
                 .catch(errors => {
-                    this.transacaoStatus = 'erro';
-                    this.transacoesDetalhes = {
-                        mensagem: errors.response.data.message,
-                        dados: errors.response.data.errors,
-                    };
+                    this.$store.state.transacao.mensagem = errors.response.data.message;
+                    this.$store.state.transacao.dados = errors.response.data.errors;
+                    this.$store.state.transacao.status = 'erro';
                 });
             },
             carregarLista() {
@@ -183,6 +205,30 @@ import InputContainer from './InputContainer.vue';
                 }
                 this.carregarLista();
             },
+            remover() {
+                let url = this.urlBase+'/'+this.$store.state.item.id;
+                let config = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': this.tokenApi,
+                    }
+                }
+                axios.delete(url, config)
+                .then((response) => {
+                    this.$store.state.transacao.mensagem = 'O registro foi removido com sucesso!';
+                    this.$store.state.transacao.status = 'removido';
+                    this.carregarLista();
+                })
+                .catch((error) => {
+                    this.$store.state.transacao.mensagem = 'Houve um erro ao tentar remover o registro!';
+                    this.$store.state.transacao.status = 'erro';
+                });
+            },
+            clearStore() {
+                this.$store.state.transacao.status = '';
+                this.$store.state.transacao.mensagem = '';
+                this.$store.state.transacao.dados = '';
+            }
         },
         computed: {
             tokenApi() {
