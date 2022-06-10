@@ -34,6 +34,7 @@
                                 id: {titulo: 'ID', tipo: 'text'},
                                 nome: {titulo: 'Nome', tipo: 'text'},
                                 imagem: {titulo: 'Imagem', tipo: 'imagen'},
+                                created_at: {titulo: 'Data Inserção', tipo: 'data'},
                             }"
                         ></table-component>
                     </template>

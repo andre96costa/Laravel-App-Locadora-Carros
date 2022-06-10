@@ -6940,6 +6940,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -7215,6 +7216,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  filters: {
+    formataDataTempo: function formataDataTempo(d) {
+      if (!d) {
+        return '';
+      }
+
+      d = d.split('T')[0];
+      var data = d.split('-');
+      return data[2] + '/' + data[1] + '/' + data[0];
+    }
+  },
   props: ['dados', 'titulos', 'visualizar', 'atualizar', 'remover'],
   methods: {
     setStore: function setStore(obj) {
@@ -7247,7 +7259,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var Vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! Vuex */ "./node_modules/Vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var Vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Vuex */ "./node_modules/Vuex/dist/vuex.esm.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -7256,11 +7269,12 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
+
 /* importando e configurando o vuex */
 
 
-Vue.use(Vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
-var store = new Vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(Vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var store = new Vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     item: {},
     transacao: {
@@ -7280,23 +7294,32 @@ var store = new Vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', (__webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]));
-Vue.component('login-component', (__webpack_require__(/*! ./components/Login.vue */ "./resources/js/components/Login.vue")["default"]));
-Vue.component('home-component', (__webpack_require__(/*! ./components/Home.vue */ "./resources/js/components/Home.vue")["default"]));
-Vue.component('marcas-component', (__webpack_require__(/*! ./components/Marcas.vue */ "./resources/js/components/Marcas.vue")["default"]));
-Vue.component('input-container-component', (__webpack_require__(/*! ./components/InputContainer.vue */ "./resources/js/components/InputContainer.vue")["default"]));
-Vue.component('table-component', (__webpack_require__(/*! ./components/Table.vue */ "./resources/js/components/Table.vue")["default"]));
-Vue.component('card-component', (__webpack_require__(/*! ./components/Card.vue */ "./resources/js/components/Card.vue")["default"]));
-Vue.component('modal-component', (__webpack_require__(/*! ./components/Modal.vue */ "./resources/js/components/Modal.vue")["default"]));
-Vue.component('alert-component', (__webpack_require__(/*! ./components/Alert.vue */ "./resources/js/components/Alert.vue")["default"]));
-Vue.component('paginate-component', (__webpack_require__(/*! ./components/Paginate.vue */ "./resources/js/components/Paginate.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('example-component', (__webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('login-component', (__webpack_require__(/*! ./components/Login.vue */ "./resources/js/components/Login.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('home-component', (__webpack_require__(/*! ./components/Home.vue */ "./resources/js/components/Home.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('marcas-component', (__webpack_require__(/*! ./components/Marcas.vue */ "./resources/js/components/Marcas.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('input-container-component', (__webpack_require__(/*! ./components/InputContainer.vue */ "./resources/js/components/InputContainer.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('table-component', (__webpack_require__(/*! ./components/Table.vue */ "./resources/js/components/Table.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('card-component', (__webpack_require__(/*! ./components/Card.vue */ "./resources/js/components/Card.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('modal-component', (__webpack_require__(/*! ./components/Modal.vue */ "./resources/js/components/Modal.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('alert-component', (__webpack_require__(/*! ./components/Alert.vue */ "./resources/js/components/Alert.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('paginate-component', (__webpack_require__(/*! ./components/Paginate.vue */ "./resources/js/components/Paginate.vue")["default"]));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].filter('formataDataTempoGlobal', function (d) {
+  if (!d) {
+    return '';
+  }
+
+  d = d.split('T')[0];
+  var data = d.split('-');
+  return data[2] + '/' + data[1] + '/' + data[0];
+});
+var app = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
   el: '#app',
   store: store
 });
@@ -31106,6 +31129,10 @@ var render = function () {
                             id: { titulo: "ID", tipo: "text" },
                             nome: { titulo: "Nome", tipo: "text" },
                             imagem: { titulo: "Imagem", tipo: "imagen" },
+                            created_at: {
+                              titulo: "Data Inserção",
+                              tipo: "data",
+                            },
                           },
                         },
                       }),
@@ -31802,7 +31829,9 @@ var render = function () {
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.titulos[chaveValor].tipo == "data"
-                  ? _c("span", [_vm._v(_vm._s(valor))])
+                  ? _c("span", [
+                      _vm._v(_vm._s(_vm._f("formataDataTempoGlobal")(valor))),
+                    ])
                   : _vm._e(),
               ])
             }),

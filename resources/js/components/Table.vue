@@ -13,7 +13,7 @@
                     <span v-if="titulos[chaveValor].tipo == 'imagen'">
                         <img v-bind:src="'/storage/'+valor" :alt="'imagem-'+valor" width="40px" height="40px">
                     </span>
-                    <span v-if="titulos[chaveValor].tipo == 'data'">{{ valor }}</span>
+                    <span v-if="titulos[chaveValor].tipo == 'data'">{{ valor | formataDataTempoGlobal }}</span>
                 </td>
                 <td>
                     <button v-if="visualizar.visivel" class="btn btn-outline-primary btn-sm" :data-bs-toggle="visualizar.dataToggle" :data-bs-target="visualizar.dataTarget" v-on:click="setStore(obj)">Visualizar</button>
@@ -27,6 +27,16 @@
 
 <script>
     export default {
+        filters: {
+            formataDataTempo(d) {
+                if (!d) {
+                    return '';
+                }
+                d = d.split('T')[0];
+                let data = d.split('-');
+                return data[2]+'/'+data[1]+'/'+data[0];
+            },
+        },
         props: ['dados', 'titulos', 'visualizar', 'atualizar', 'remover'],
         methods: {
             setStore(obj) {

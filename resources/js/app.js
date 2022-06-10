@@ -8,6 +8,7 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 
+import Vue from 'vue';
 /* importando e configurando o vuex */
 import Vuex from 'Vuex';
 Vue.use(Vuex);
@@ -50,6 +51,15 @@ Vue.component('paginate-component', require('./components/Paginate.vue').default
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.filter('formataDataTempoGlobal', function (d) {
+    if (!d) {
+        return '';
+    }
+    d = d.split('T')[0];
+    let data = d.split('-');
+    return data[2]+'/'+data[1]+'/'+data[0];
+});
 
 const app = new Vue({
     el: '#app',
