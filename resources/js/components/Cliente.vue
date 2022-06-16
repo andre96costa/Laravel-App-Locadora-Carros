@@ -33,12 +33,11 @@
                             v-bind:titulos="{
                                 id: {titulo: 'ID', tipo: 'text', show: true},
                                 placa: {titulo: 'Placa', tipo: 'text', show: true},
-                                modelo: {titulo: 'modelo', tipo: 'text[]', show: false},
                                 disponivel: {titulo: 'Disponivel', tipo: 'checkbox', show: true},
                                 km: {titulo: 'Km', tipo: 'text', show: true},
                                 created_at: {titulo: 'Data Inserção', tipo: 'data', show: true},
                                 modelo_id: {titulo: 'modelo_id', tipo: 'number', show: false},
-                                
+                                modelo: {titulo: 'modelo', tipo: 'text[]', show: false},
                             }"
                         ></table-component>
                     </template>
@@ -278,7 +277,7 @@
                         break
                     case 'modelo':
                         this.modelo_id = e.target.value;
-                        break;
+                        break
                     default:
                         console.log('Wrong selection');
                         break;
@@ -425,10 +424,10 @@
         },
         computed: {
             isSelected() {
-                if (this.$store.state.item.modelo_id) {
+                if (this.$store.state.item.marca_id) {
                     return {
-                        id: this.$store.state.item.modelo_id,
-                        nome: this.$store.state.item.modelo.nome,
+                        id: this.$store.state.item.marca_id,
+                        nome: this.$store.state.item.marca.nome,
                     };
                 } else {
                     return 0;

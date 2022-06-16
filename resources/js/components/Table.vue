@@ -11,12 +11,13 @@
         <tbody>
             <tr v-for="(obj, chave) in dadosFiltrados" v-bind:key="chave">
                 <td v-for="(valor, chaveValor) in obj" :key="chaveValor">
-                    <span v-if="titulos[chaveValor].tipo == 'text'">{{ valor }}</span>
-                    <span v-if="titulos[chaveValor].tipo == 'checkbox'">{{ valor | formataBooleanGlobal }}</span>
-                    <span v-if="titulos[chaveValor].tipo == 'imagen'">
+                    <span v-if="titulos[chaveValor].tipo == 'text' && titulos[chaveValor].show">{{ valor }}</span>
+                    <span v-if="titulos[chaveValor].tipo == 'checkbox' && titulos[chaveValor].show">{{ valor | formataBooleanGlobal }}</span>
+                    <span v-if="titulos[chaveValor].tipo == 'imagen' && titulos[chaveValor].show">
                         <img v-bind:src="'/storage/'+valor" :alt="'imagem-'+valor" width="40px" height="40px">
                     </span>
-                    <span v-if="titulos[chaveValor].tipo == 'data'">{{ valor | formataDataTempoGlobal }}</span>
+                    <span v-if="titulos[chaveValor].tipo == 'data' && titulos[chaveValor].show">{{ valor | formataDataTempoGlobal }}</span>
+                    <span v-if="titulos[chaveValor].tipo == 'text[]' && titulos[chaveValor].show">{{ valor.nome }}</span>
                 </td>
                 <td>
                     <button v-if="visualizar.visivel" class="btn btn-outline-primary btn-sm" :data-bs-toggle="visualizar.dataToggle" :data-bs-target="visualizar.dataTarget" v-on:click="setStore(obj)">Visualizar</button>
@@ -43,6 +44,7 @@
         props: ['dados', 'titulos', 'visualizar', 'atualizar', 'remover'],
         methods: {
             setStore(obj) {
+                console.log(obj);
                 this.$store.state.isModalOpened = true;
                 this.$store.state.transacao.status = '',
                 this.$store.state.transacao.mensagem = '', 

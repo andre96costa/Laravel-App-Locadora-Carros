@@ -32,3 +32,7 @@ Route::get('/modelos', function() {
 Route::get('/carros', function() {
     return view('app.carros');
 })->name('carros')->middleware('auth');
+
+Route::get('/clientes', function() {
+    return view('app.cliente');
+})->name('cliente')->middleware('auth');
