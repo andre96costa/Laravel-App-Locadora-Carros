@@ -10,7 +10,7 @@ class Modelo extends Model
     use HasFactory;
 
     protected $fillable = [
-     	'marca_id',
+        'marca_id',
         'nome',
         'imagem',
         'numero_portas',

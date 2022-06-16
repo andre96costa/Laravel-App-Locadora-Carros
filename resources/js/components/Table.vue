@@ -2,7 +2,9 @@
     <table class="table table-hover">
         <thead>
             <tr >
-                <th v-for="(t,key) in titulos" :key="key" scope="col">{{ t.titulo }}</th>
+                <template v-for="(t,key) in titulos">
+                    <th v-if="t.show" :key="key" scope="col">{{ t.titulo }}</th>
+                </template>
                 <th v-if="visualizar.visivel || atualizar.visivel || remover.visivel"></th>
             </tr>
         </thead>
@@ -40,6 +42,7 @@
         props: ['dados', 'titulos', 'visualizar', 'atualizar', 'remover'],
         methods: {
             setStore(obj) {
+                this.$store.state.isModalOpened = true;
                 this.$store.state.transacao.status = '',
                 this.$store.state.transacao.mensagem = '', 
                 this.$store.state.item = obj;

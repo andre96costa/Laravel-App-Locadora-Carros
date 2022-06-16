@@ -138,4 +138,10 @@ class MarcaController extends Controller
 
         return response()->json([], 204);
     }
+
+    public function listAllMarca()
+    {
+        $marcaRepository = new MarcaRepository($this->marca);
+        return response()->json($marcaRepository->getResultado(), 200);
+    }
 }

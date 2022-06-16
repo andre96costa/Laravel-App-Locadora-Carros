@@ -31,10 +31,10 @@
                             v-bind:atualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#marcaModalAtualizar'}" 
                             v-bind:remover="{visivel: true, dataToggle: 'modal', dataTarget: '#marcaModalRemover'}"
                             v-bind:titulos="{
-                                id: {titulo: 'ID', tipo: 'text'},
-                                nome: {titulo: 'Nome', tipo: 'text'},
-                                imagem: {titulo: 'Imagem', tipo: 'imagen'},
-                                created_at: {titulo: 'Data Inserção', tipo: 'data'},
+                                id: {titulo: 'ID', tipo: 'text', show: true},
+                                nome: {titulo: 'Nome', tipo: 'text', show: true},
+                                imagem: {titulo: 'Imagem', tipo: 'imagen', show: true},
+                                created_at: {titulo: 'Data Inserção', tipo: 'data', show: true},
                             }"
                         ></table-component>
                     </template>
