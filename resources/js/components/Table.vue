@@ -12,6 +12,7 @@
             <tr v-for="(obj, chave) in dadosFiltrados" v-bind:key="chave">
                 <td v-for="(valor, chaveValor) in obj" :key="chaveValor">
                     <span v-if="titulos[chaveValor].tipo == 'text'">{{ valor }}</span>
+                    <span v-if="titulos[chaveValor].tipo == 'checkbox'">{{ valor | formataBooleanGlobal }}</span>
                     <span v-if="titulos[chaveValor].tipo == 'imagen'">
                         <img v-bind:src="'/storage/'+valor" :alt="'imagem-'+valor" width="40px" height="40px">
                     </span>

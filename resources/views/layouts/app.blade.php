@@ -43,7 +43,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Veiculos</a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Carros</a>
+                                    <a class="dropdown-item" href="{{ route('carros') }}">Carros</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('marcas') }}">Marcas</a>
                                     <div class="dropdown-divider"></div>

@@ -48,6 +48,7 @@ Vue.component('modal-component', require('./components/Modal.vue').default);
 Vue.component('alert-component', require('./components/Alert.vue').default);
 Vue.component('paginate-component', require('./components/Paginate.vue').default);
 Vue.component('modelos-component', require('./components/Modelos.vue').default);
+Vue.component('carros-component', require('./components/Carros.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -62,6 +63,14 @@ Vue.filter('formataDataTempoGlobal', function (d) {
     d = d.split('T')[0];
     let data = d.split('-');
     return data[2]+'/'+data[1]+'/'+data[0];
+});
+
+Vue.filter('formataBooleanGlobal', function (d) {
+    if (d) {
+        return 'Sim';
+    } else {
+        return 'Não';
+    }
 });
 
 const app = new Vue({

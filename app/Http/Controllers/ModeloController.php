@@ -88,7 +88,7 @@ class ModeloController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, int $id)
-    {
+    {   
         $modelo = $this->modeloModel->find($id);
         $imagem = $request->file('imagem');
 
@@ -133,8 +133,18 @@ class ModeloController extends Controller
         if (empty($modelo)) {
             return response()->json([], 404);
         }
-        Storage::disk('public')->delete($modelo->imagem);
-        $modelo->delete();
-        return response()->json([], 204);
+        
+        try {
+            $modelo->delete();
+            Storage::disk('public')->delete($modelo->imagem);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Não pode ser deletado. Este registro está relacionado com um registro de carro.'], 500);
+        }
+    }
+
+    public function listAllModelos()
+    {
+        $modeloRepository = new ModeloRepository($this->modeloModel);
+        return response()->json($modeloRepository->getResultado(), 200);
     }
 }

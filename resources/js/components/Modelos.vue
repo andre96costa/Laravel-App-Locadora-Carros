@@ -205,6 +205,7 @@
                         </div>
                     </div>
                 </div>
+                {{ $store.state.item}}
             </template>
             <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="clearStore()">Cancelar</button>
@@ -265,19 +266,19 @@
                             </div>
                             <div class="col-8">
                                 <input-container titulo="Nome">
-                                        <input type="text" class="form-control" v-model="$store.state.item.nome">
+                                        <input type="text" class="form-control" :value="$store.state.item.nome" @change="atualizarModeloInputs($event,'nome')">
                                 </input-container>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 <input-container titulo="Qtd. Portas">
-                                    <input type="text" class="form-control" v-model="$store.state.item.numero_portas">
+                                    <input type="text" class="form-control" :value="$store.state.item.numero_portas" @change="atualizarModeloInputs($event,'numero_portas')">
                                 </input-container>
                             </div>
                             <div class="col-6">
                                 <input-container titulo="Qtd. Lugares">
-                                    <input type="text" class="form-control" v-model="$store.state.item.lugares">
+                                    <input type="text" class="form-control" :value="$store.state.item.lugares" @change="atualizarModeloInputs($event,'lugares')">
                                 </input-container>
                             </div>
                         </div>
@@ -286,13 +287,13 @@
                                 <input-container-component titulo="Possui freio Abs" id="absInput">
                                     <br>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="absInput" @change="atualizarCheckModelo($event,'abs')" id="absInputSim" value="1" :checked="$store.state.item.abs == 1">
+                                        <input class="form-check-input" type="radio" name="absInput" @change="atualizarModeloInputs($event,'abs')" id="absInputSim" value="1" :checked="$store.state.item.abs == 1">
                                         <label class="form-check-label" for="absInputSim">
                                             Sim
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="absInput" @change="atualizarCheckModelo($event,'abs')" id="absInputSimNao" value="0" :checked="$store.state.item.abs == 0">
+                                        <input class="form-check-input" type="radio" name="absInput" @change="atualizarModeloInputs($event,'abs')" id="absInputSimNao" value="0" :checked="$store.state.item.abs == 0">
                                         <label class="form-check-label" for="absInputSimNao">
                                             Não
                                         </label>
@@ -303,13 +304,13 @@
                                 <input-container-component titulo="Possui Air-bags" id="airbagInput">
                                     <br>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="airbagInput" @change="atualizarCheckModelo($event,'air_bag')" id="airbagInputSim" value="1" :checked="$store.state.item.air_bag == 1">
+                                        <input class="form-check-input" type="radio" name="airbagInput" @change="atualizarModeloInputs($event,'air_bag')" id="airbagInputSim" value="1" :checked="$store.state.item.air_bag == 1">
                                         <label class="form-check-label" for="airbagInputSim">
                                             Sim
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="airbagInput" @change="atualizarCheckModelo($event,'air_bag')" id="airbagInputNao" value="0" :checked="$store.state.item.air_bag == 0">
+                                        <input class="form-check-input" type="radio" name="airbagInput" @change="atualizarModeloInputs($event,'air_bag')" id="airbagInputNao" value="0" :checked="$store.state.item.air_bag == 0">
                                         <label class="form-check-label" for="airbagInputNao">
                                             Não
                                         </label>
@@ -321,7 +322,7 @@
                         <div class="row" v-if="$store.state.item.marca">
                             <div class="col-12">
                                 <input-container-component titulo="Marca do modelo" id="marcaSelectInput">
-                                    <select class="form-select" aria-label="selecao da marca" @change="atualizarMarcaNoSelectModelo($event)">
+                                    <select class="form-select" aria-label="selecao da marca" @change="atualizarModeloInputs($event, 'marca')">
                                         <template v-for="(v) in marcas.data" >
                                             <option :key="v.id" :value="v.id" :selected="v.id == isSelected.id">{{ v.nome }}</option>
                                         </template>
@@ -372,20 +373,32 @@
             }
         },
         methods: {
-            atualizarCheckModelo(e, nameField) {
+            atualizarModeloInputs(e, nameField) {
+                if (nameField == 'nome') {
+                    this.nomeModelo = e.target.value;
+                }
+                if (nameField == 'numero_portas') {
+                    this.numero_portas = e.target.value;
+                }
+                if (nameField == 'lugares') {
+                    this.lugares = e.target.value;
+                }
                 if (nameField == 'abs') {
                     this.abs = e.target.value;
                 }
                 if (nameField == 'air_bag') {
                     this.air_bag = e.target.value;
                 }
+                if (nameField == 'marca') {
+                    this.marca_id = e.target.value;
+                }
             },
-            atualizarMarcaNoSelectModelo(e){
-                this.marca_id = e.target.value;
-            },
+            // atualizarMarcaNoSelectModelo(e){
+            //     this.marca_id = e.target.value;
+            // },
             carregarImagem(e) {
+                console.log();
                 this.arquivoImagem = e.target.files
-                console.log(this.arquivoImagem[0].name);
             },
             paginacao(l) {
                 if (l.url) {
@@ -467,8 +480,8 @@
                     this.$store.state.transacao.status = 'removido';
                     this.carregarLista();
                 })
-                .catch((error) => {
-                    this.$store.state.transacao.mensagem = 'Houve um erro ao tentar remover o registro!';
+                .catch((errors, message) => {
+                    this.$store.state.transacao.mensagem = errors.response.data.message;
                     this.$store.state.transacao.status = 'erro';
                 });
             },
@@ -476,12 +489,20 @@
                 let url = this.urlBase+'/'+this.$store.state.item.id;
                 let formData = new FormData();
                 formData.append('_method', 'PATCH');
-                formData.append('nome', this.$store.state.item.nome);
+                if (this.nomeModelo) {
+                    formData.append('nome', this.nomeModelo);
+                } else {
+                    formData.append('nome', this.$store.state.item.nome);
+                }
                 if (this.arquivoImagem[0]) {
                     formData.append('imagem', this.arquivoImagem[0]);
                 }
-                formData.append('numero_portas', this.$store.state.item.numero_portas);
-                formData.append('lugares', this.$store.state.item.lugares);
+                if (this.numero_portas) {
+                    formData.append('numero_portas', this.numero_portas);
+                }
+                if (this.lugares) {
+                    formData.append('lugares', this.lugares);
+                }
                 if (this.abs) {
                     formData.append('abs', this.abs);
                 }
@@ -498,8 +519,8 @@
                 };
                 axios.post(url, formData, config)
                 .then((response) => {
-                    console.log(response);
                     imagemModeloInputEnviar.value = '';
+                    this.arquivoImagem = [];
                     this.$store.state.transacao.mensagem = 'Registro atualizado!';
                     this.$store.state.transacao.status = 'atualizar';
                     this.carregarLista();
