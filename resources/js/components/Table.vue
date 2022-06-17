@@ -44,7 +44,6 @@
         props: ['dados', 'titulos', 'visualizar', 'atualizar', 'remover'],
         methods: {
             setStore(obj) {
-                console.log(obj);
                 this.$store.state.isModalOpened = true;
                 this.$store.state.transacao.status = '',
                 this.$store.state.transacao.mensagem = '', 

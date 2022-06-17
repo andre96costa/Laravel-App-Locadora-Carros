@@ -38,7 +38,7 @@
                                 <a class="nav-link" href="{{ route('cliente') }}">Clientes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Locaçoes</a>
+                                <a class="nav-link" href="{{ route('locacao') }}">Locaçoes</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Veiculos</a>

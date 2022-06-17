@@ -38,7 +38,7 @@ class ClienteController extends Controller
             $clienteRepository->selectAtributes($request->atributos);
         }
         
-        return response()->json($clienteRepository->getResultado(), 200);
+        return response()->json($clienteRepository->getResultadoPaginado(3), 200);
     }
 
     /**
