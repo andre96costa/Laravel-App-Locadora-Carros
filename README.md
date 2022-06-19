@@ -21,18 +21,24 @@ Projeto para estudos desenvolvido no curso [Desenvolvimento Web Avançado 2022 c
     npm install
     ```
 4. Criar o arquivo .env na rais do projeto, configurar os acessos ao banco de dados.
-5. Gerar a chave JWT para o projeto
+5. Gerar a chave da aplicação laravel
+    ```bash
+    php artisan key:generate
+    ```
+6. Gerar a chave JWT para o projeto
     ```bash
     php artisan jwt:secret 
     ```
-6. Executar as migrations
+7. Executar as migrations
     ```bash
     php artisan migrate
     ```
-7. Criar um link simbolico
+8. Criar um link simbolico
     ```bash
     php artisan storage:link
     ```
+## Erro no primeiro acesso!
+Ao configurar o projeto como especificado a cima, será necessario criar um usúario para realizar acesso a plataforma, quando o usúario é criado o sistema redireciona para a página home do projeto, com o usúario já logado. O problema pode acontecer da seguinte forma, ao tentar realizar uma requisição ao servidor o token gerado para o usúario pode não ser reconhecido pelo servidor. Para poder utilizar a plicação após criar uma conta, fassa logout e login novamente, assim o token será gerado novamente. Esse procedimento só é necessario na criação da conta.
 ## Certificado de conclusão do curso
 > [Centificado conclusão](https://www.udemy.com/certificate/UC-b63250ab-388b-4bb5-9894-7e4dd0710ed3/)
 
