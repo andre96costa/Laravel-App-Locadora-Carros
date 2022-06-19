@@ -25,9 +25,9 @@ class CarroController extends Controller
         
         if ($request->has('atributos_modelo')) {
             $atributosModelo = "modelo:$request->atributos_modelo";
-            $carroRepository->selectAtributesRegistroRelacionamento($atributosModelo);
+            $carroRepository->selectAtributesRegistroRelacionamento([$atributosModelo]);
         } else {
-            $carroRepository->selectAtributesRegistroRelacionamento('modelo');
+            $carroRepository->selectAtributesRegistroRelacionamento(['modelo']);
         }
 
         if ($request->has('filtro')) {
@@ -117,7 +117,18 @@ class CarroController extends Controller
         if (empty($carro)) {
             return response()->json([], 404);
         }
-        $carro->delete();
+        try {
+            $carro->delete();
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Não pode ser deletado. Este registro está relacionado com um registro de locacao.'], 500);
+        }
         return response()->json([], 204);
+    }
+
+    public function listAllCarros()
+    {
+        $carroRepository = new CarroRepository($this->carroModel);
+        $carroRepository->selectAtributesRegistroRelacionamento(['modelo']);
+        return response()->json($carroRepository->getResultado(), 200);
     }
 }

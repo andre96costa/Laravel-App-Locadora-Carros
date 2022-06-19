@@ -63,8 +63,10 @@ Vue.filter('formataDataTempoGlobal', function (d) {
         return '';
     }
     d = d.split('T')[0];
-    let data = d.split('-');
-    return data[2]+'/'+data[1]+'/'+data[0];
+    let data = d.split(' ');
+    let hora = data[1];
+    data = data[0].split('-');
+    return data[2]+'/'+data[1]+'/'+data[0]+' '+hora;
 });
 
 Vue.filter('formataBooleanGlobal', function (d) {

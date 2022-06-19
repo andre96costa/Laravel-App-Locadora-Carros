@@ -110,7 +110,17 @@ class ClienteController extends Controller
         if (empty($cliente)) {
             return response()->json([], 404);
         }
-        $cliente->delete();
+        try {
+            $cliente->delete();
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Não pode ser deletado. Este registro está relacionado com um registro de locacao.'], 500);
+        }
         return response()->json([], 204);
+    }
+
+    public function listAllClientes()
+    {
+        $clienteRepository = new ClienteRepository($this->clienteModel);
+        return response()->json($clienteRepository->getResultado(), 200);
     }
 }

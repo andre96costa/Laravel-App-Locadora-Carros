@@ -7467,6 +7467,456 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Locacao.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Locacao.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _InputContainer_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InputContainer.vue */ "./resources/js/components/InputContainer.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    InputContainer: _InputContainer_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  mounted: function mounted() {
+    this.carregarLista();
+    this.carregarClientes();
+    this.carregarCarros();
+  },
+  data: function data() {
+    return {
+      urlBase: 'http://localhost:8000/api/v1/locacao',
+      urlPaginacao: '',
+      urlFiltro: '',
+      cliente_id: '',
+      carro_id: '',
+      data_inicio_periodo: '',
+      data_final_previsto_periodo: '',
+      valor_diaria: '',
+      km_inicial: '',
+      data_final_realizado_periodo: '',
+      km_final: '',
+      transacaoStatus: '',
+      transacoesDetalhes: {},
+      locacao: {
+        data: []
+      },
+      clientes: {
+        data: []
+      },
+      carros: {
+        data: []
+      },
+      busca: {
+        id: '',
+        nome: ''
+      },
+      isModalClosed: this.$store.state.isModalOpened
+    };
+  },
+  methods: {
+    paginacao: function paginacao(l) {
+      if (l.url) {
+        this.urlPaginacao = l.url.split('?')[1];
+        this.carregarLista();
+      }
+    },
+    clearStore: function clearStore() {
+      this.$store.state.transacao.status = '';
+      this.$store.state.transacao.mensagem = '';
+      this.$store.state.transacao.dados = '';
+      this.$store.state.item = {};
+    },
+    clearModalFields: function clearModalFields() {
+      this.cliente_id = '', this.carro_id = '', this.data_inicio_periodo = '', this.data_final_previsto_periodo = '', this.valor_diaria = '', this.km_inicial = '', this.data_final_realizado_periodo = '', this.km_final = '', this.clearStore();
+    },
+    carregarClientes: function carregarClientes() {
+      var _this = this;
+
+      var url = 'http://localhost:8000/api/v1/cliente/lista';
+      axios.get(url).then(function (response) {
+        _this.clientes.data = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    carregarCarros: function carregarCarros() {
+      var _this2 = this;
+
+      var url = 'http://localhost:8000/api/v1/carro/lista';
+      axios.get(url).then(function (response) {
+        _this2.carros.data = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    carregarLista: function carregarLista() {
+      var _this3 = this;
+
+      var url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
+      axios.get(url).then(function (response) {
+        _this3.locacao = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    salvar: function salvar() {
+      var _this4 = this;
+
+      this.$store.state.transacao.status = '';
+      this.$store.state.transacao.mensagem = '';
+      var objCreate = {};
+      objCreate['cliente_id'] = this.cliente_id;
+      objCreate['carro_id'] = this.carro_id;
+      objCreate['data_inicio_periodo'] = this.data_inicio_periodo;
+      objCreate['data_final_previsto_periodo'] = this.data_final_previsto_periodo;
+      objCreate['valor_diaria'] = this.valor_diaria;
+      objCreate['km_inicial'] = this.km_inicial;
+      var config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      axios.post(this.urlBase, objCreate, config).then(function (response) {
+        _this4.$store.state.transacao.mensagem = 'ID do registro ' + response.data.id;
+        _this4.$store.state.transacao.status = 'adicionado';
+
+        _this4.carregarLista();
+      })["catch"](function (errors) {
+        _this4.$store.state.transacao.mensagem = errors.response.data.message;
+        _this4.$store.state.transacao.dados = errors.response.data.errors;
+        _this4.$store.state.transacao.status = 'erro';
+      });
+    },
+    remover: function remover() {
+      var _this5 = this;
+
+      var url = this.urlBase + '/' + this.$store.state.item.id;
+      axios["delete"](url).then(function (response) {
+        _this5.$store.state.transacao.mensagem = 'O registro foi removido com sucesso!';
+        _this5.$store.state.transacao.status = 'removido';
+
+        _this5.carregarLista();
+      })["catch"](function (error) {
+        _this5.$store.state.transacao.mensagem = 'Houve um erro ao tentar remover o registro!';
+        _this5.$store.state.transacao.status = 'erro';
+      });
+    },
+    atualizar: function atualizar() {
+      var _this6 = this;
+
+      var url = this.urlBase + '/' + this.$store.state.item.id;
+      var objUpdate = {};
+      objUpdate['cliente_id'] = this.$store.state.item.cliente_id;
+      objUpdate['carro_id'] = this.$store.state.item.carro_id;
+      objUpdate['data_inicio_periodo'] = this.$store.state.item.data_inicio_periodo.split(' ')[0];
+      objUpdate['data_final_previsto_periodo'] = this.$store.state.item.data_final_previsto_periodo.split(' ')[0];
+      objUpdate['valor_diaria'] = this.$store.state.item.valor_diaria;
+      objUpdate['km_inicial'] = this.$store.state.item.km_inicial;
+      objUpdate['data_final_realizado_periodo'] = this.data_final_realizado_periodo;
+      objUpdate['km_final'] = this.km_final;
+      var config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      axios.put(url, objUpdate, config).then(function (response) {
+        _this6.$store.state.transacao.mensagem = 'Registro atualizado!';
+        _this6.$store.state.transacao.status = 'atualizar';
+
+        _this6.carregarLista();
+      })["catch"](function (errors) {
+        _this6.$store.state.transacao.mensagem = '';
+        _this6.$store.state.transacao.dados = errors.response.data.errors;
+        _this6.$store.state.transacao.status = 'erro';
+      });
+    },
+    pesquisar: function pesquisar() {
+      var filtro = '';
+      this.urlFiltro = '';
+
+      for (var key in this.busca) {
+        if (this.busca[key]) {
+          if (filtro != '') {
+            filtro += ';';
+          }
+
+          filtro += key + ':like:%' + this.busca[key] + '%';
+        }
+      }
+
+      if (filtro != '') {
+        this.urlPaginacao = 'page=1';
+        this.urlFiltro = '&filtro=' + filtro;
+      }
+
+      this.carregarLista();
+    }
+  },
+  watch: {
+    isModalClosed: function isModalClosed(e) {
+      if (!this.isModalClosed) {
+        this.clearModalFields();
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Login.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Login.vue?vue&type=script&lang=js& ***!
@@ -8605,6 +9055,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
     formataDataTempo: function formataDataTempo(d) {
@@ -8613,7 +9064,8 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       d = d.split('T')[0];
-      var data = d.split('-');
+      var data = d.split(' ');
+      data = data[0].split('-');
       return data[2] + '/' + data[1] + '/' + data[0];
     }
   },
@@ -8700,7 +9152,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('paginate-component', (__w
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('modelos-component', (__webpack_require__(/*! ./components/Modelos.vue */ "./resources/js/components/Modelos.vue")["default"]));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('carros-component', (__webpack_require__(/*! ./components/Carros.vue */ "./resources/js/components/Carros.vue")["default"]));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('cliente-component', (__webpack_require__(/*! ./components/Cliente.vue */ "./resources/js/components/Cliente.vue")["default"]));
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('locacao-component', Object(function webpackMissingModule() { var e = new Error("Cannot find module './components/Locacao.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('locacao-component', (__webpack_require__(/*! ./components/Locacao.vue */ "./resources/js/components/Locacao.vue")["default"]));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -8713,8 +9165,10 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].filter('formataDataTempoGlobal', fun
   }
 
   d = d.split('T')[0];
-  var data = d.split('-');
-  return data[2] + '/' + data[1] + '/' + data[0];
+  var data = d.split(' ');
+  var hora = data[1];
+  data = data[0].split('-');
+  return data[2] + '/' + data[1] + '/' + data[0] + ' ' + hora;
 });
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].filter('formataBooleanGlobal', function (d) {
   if (d) {
@@ -31516,6 +31970,45 @@ component.options.__file = "resources/js/components/InputContainer.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Locacao.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Locacao.vue ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Locacao_vue_vue_type_template_id_676cbc75___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Locacao.vue?vue&type=template&id=676cbc75& */ "./resources/js/components/Locacao.vue?vue&type=template&id=676cbc75&");
+/* harmony import */ var _Locacao_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Locacao.vue?vue&type=script&lang=js& */ "./resources/js/components/Locacao.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Locacao_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Locacao_vue_vue_type_template_id_676cbc75___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Locacao_vue_vue_type_template_id_676cbc75___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Locacao.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Login.vue":
 /*!*******************************************!*\
   !*** ./resources/js/components/Login.vue ***!
@@ -31862,6 +32355,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Locacao.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/Locacao.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Locacao_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Locacao.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Locacao.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Locacao_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Login.vue?vue&type=script&lang=js&":
 /*!********************************************************************!*\
   !*** ./resources/js/components/Login.vue?vue&type=script&lang=js& ***!
@@ -32073,6 +32582,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InputContainer_vue_vue_type_template_id_2de7df82___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InputContainer_vue_vue_type_template_id_2de7df82___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./InputContainer.vue?vue&type=template&id=2de7df82& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/InputContainer.vue?vue&type=template&id=2de7df82&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Locacao.vue?vue&type=template&id=676cbc75&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/Locacao.vue?vue&type=template&id=676cbc75& ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Locacao_vue_vue_type_template_id_676cbc75___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Locacao_vue_vue_type_template_id_676cbc75___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Locacao_vue_vue_type_template_id_676cbc75___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Locacao.vue?vue&type=template&id=676cbc75& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Locacao.vue?vue&type=template&id=676cbc75&");
 
 
 /***/ }),
@@ -32456,11 +32982,6 @@ var render = function () {
                               tipo: "text",
                               show: true,
                             },
-                            modelo: {
-                              titulo: "modelo",
-                              tipo: "text[]",
-                              show: false,
-                            },
                             disponivel: {
                               titulo: "Disponivel",
                               tipo: "checkbox",
@@ -32471,6 +32992,11 @@ var render = function () {
                               titulo: "Data Inserção",
                               tipo: "data",
                               show: true,
+                            },
+                            modelo: {
+                              titulo: "modelo",
+                              tipo: "text[]",
+                              show: false,
                             },
                             modelo_id: {
                               titulo: "modelo_id",
@@ -34211,6 +34737,1253 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Locacao.vue?vue&type=template&id=676cbc75&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Locacao.vue?vue&type=template&id=676cbc75& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-8" },
+          [
+            _c("card-component", {
+              attrs: { titulo: "Buscar Locação" },
+              scopedSlots: _vm._u([
+                {
+                  key: "conteudo",
+                  fn: function () {
+                    return [
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col mb-3" },
+                          [
+                            _c(
+                              "input-container-component",
+                              {
+                                attrs: {
+                                  titulo: "ID",
+                                  id: "idInput",
+                                  "id-help": "idHelp",
+                                  "texto-ajuda":
+                                    "Opcional. Informe o ID do cliente.",
+                                },
+                              },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.busca.id,
+                                      expression: "busca.id",
+                                    },
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "number",
+                                    id: "idInput",
+                                    "aria-describedby": "idHelp",
+                                  },
+                                  domProps: { value: _vm.busca.id },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.busca,
+                                        "id",
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col mb-3" }),
+                      ]),
+                    ]
+                  },
+                  proxy: true,
+                },
+                {
+                  key: "rodape",
+                  fn: function () {
+                    return [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary btn-sm float-right",
+                          attrs: { type: "submit" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.pesquisar()
+                            },
+                          },
+                        },
+                        [_vm._v("Pesquisar")]
+                      ),
+                    ]
+                  },
+                  proxy: true,
+                },
+              ]),
+            }),
+            _vm._v(" "),
+            _c("card-component", {
+              attrs: { titulo: "Lista dos Clientes" },
+              scopedSlots: _vm._u([
+                {
+                  key: "conteudo",
+                  fn: function () {
+                    return [
+                      _c("table-component", {
+                        attrs: {
+                          dados: _vm.locacao.data,
+                          visualizar: {
+                            visivel: true,
+                            dataToggle: "modal",
+                            dataTarget: "#locacaoModalVisualizar",
+                          },
+                          atualizar: {
+                            visivel: true,
+                            dataToggle: "modal",
+                            dataTarget: "#locacaoModalAtualizar",
+                          },
+                          remover: {
+                            visivel: false,
+                            dataToggle: "modal",
+                            dataTarget: "#locacaoModalRemover",
+                          },
+                          titulos: {
+                            id: { titulo: "ID", tipo: "text", show: true },
+                            data_inicio_periodo: {
+                              titulo: "Data locação",
+                              tipo: "data",
+                              show: true,
+                            },
+                            data_final_previsto_periodo: {
+                              titulo: "Data devolução prevista",
+                              tipo: "data",
+                              show: true,
+                            },
+                            valor_diaria: {
+                              titulo: "Valor diaria",
+                              tipo: "number",
+                              show: true,
+                            },
+                            km_inicial: {
+                              titulo: "Km Inicial",
+                              tipo: "number",
+                              show: true,
+                            },
+                            data_final_realizado_periodo: {
+                              titulo: "Data devolução",
+                              tipo: "data",
+                              show: true,
+                            },
+                            km_final: {
+                              titulo: "Km final",
+                              tipo: "number",
+                              show: true,
+                            },
+                            cliente_id: {
+                              titulo: "Cliente",
+                              tipo: "number",
+                              show: false,
+                            },
+                            carro_id: {
+                              titulo: "Carro",
+                              tipo: "number",
+                              show: false,
+                            },
+                            cliente: {
+                              titulo: "cliente",
+                              tipo: "text[]",
+                              show: false,
+                            },
+                            carro: {
+                              titulo: "carro",
+                              tipo: "text[]",
+                              show: false,
+                            },
+                          },
+                        },
+                      }),
+                    ]
+                  },
+                  proxy: true,
+                },
+                {
+                  key: "rodape",
+                  fn: function () {
+                    return [
+                      _c("div"),
+                      _vm._v(" "),
+                      _c(
+                        "paginate-component",
+                        _vm._l(_vm.locacao.links, function (l, key) {
+                          return _c(
+                            "li",
+                            {
+                              key: key,
+                              class: l.active
+                                ? "page-item active"
+                                : "page-item",
+                            },
+                            [
+                              _c("a", {
+                                staticClass: "page-link",
+                                attrs: { href: "#" },
+                                domProps: { innerHTML: _vm._s(l.label) },
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.paginacao(l)
+                                  },
+                                },
+                              }),
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-primary btn-sm float-right align-self-end",
+                          staticStyle: { height: "28px" },
+                          attrs: {
+                            type: "button",
+                            "data-bs-toggle": "modal",
+                            "data-bs-target": "#locacaoModal",
+                          },
+                          on: {
+                            click: function ($event) {
+                              return _vm.clearModalFields()
+                            },
+                          },
+                        },
+                        [_vm._v("Adicionar")]
+                      ),
+                    ]
+                  },
+                  proxy: true,
+                },
+              ]),
+            }),
+          ],
+          1
+        ),
+      ]),
+      _vm._v(" "),
+      _c("modal-component", {
+        attrs: { id: "locacaoModal", title: "Adicionar Novo Cliente" },
+        scopedSlots: _vm._u([
+          {
+            key: "alertas",
+            fn: function () {
+              return [
+                _vm.$store.state.transacao.status == "adicionado"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "success",
+                        detalhes: _vm.$store.state.transacao,
+                        titulo: "Cadastro realizado com sucesso",
+                      },
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$store.state.transacao.status == "erro"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "danger",
+                        detalhes: _vm.$store.state.transacao,
+                        titulo: "Errou ao cadastrar modelo",
+                      },
+                    })
+                  : _vm._e(),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "conteudo",
+            fn: function () {
+              return [
+                _c(
+                  "input-container-component",
+                  { attrs: { titulo: "Clientes", id: "clientesSelectInput" } },
+                  [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.cliente_id,
+                            expression: "cliente_id",
+                          },
+                        ],
+                        staticClass: "form-select",
+                        attrs: { "aria-label": "selecao de cliente" },
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.cliente_id = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { value: "", disabled: "" } }, [
+                          _vm._v("Selecione um cliente"),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.clientes.data, function (v) {
+                          return _c(
+                            "option",
+                            { key: v.id, domProps: { value: v.id } },
+                            [_vm._v(_vm._s(v.nome))]
+                          )
+                        }),
+                      ],
+                      2
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "input-container-component",
+                  { attrs: { titulo: "Carros", id: "carrosSelectInput" } },
+                  [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.carro_id,
+                            expression: "carro_id",
+                          },
+                        ],
+                        staticClass: "form-select",
+                        attrs: { "aria-label": "selecao de cliente" },
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.carro_id = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { value: "", disabled: "" } }, [
+                          _vm._v("Selecione um carro"),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.carros.data, function (v) {
+                          return _c(
+                            "option",
+                            { key: v.id, domProps: { value: v.id } },
+                            [_vm._v(_vm._s(v.modelo.nome))]
+                          )
+                        }),
+                      ],
+                      2
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "input-container-component",
+                  { attrs: { titulo: "Data locação", id: "dataLocacaoInput" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data_inicio_periodo,
+                          expression: "data_inicio_periodo",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "dataLocacaoInput",
+                        placeholder: "2000-10-20",
+                      },
+                      domProps: { value: _vm.data_inicio_periodo },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.data_inicio_periodo = $event.target.value
+                        },
+                      },
+                    }),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "input-container-component",
+                  {
+                    attrs: {
+                      titulo: "Data final previsto",
+                      id: "dataFinalPrevistoInput",
+                    },
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data_final_previsto_periodo,
+                          expression: "data_final_previsto_periodo",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "dataFinalPrevistoInput",
+                        placeholder: "2000-10-20",
+                      },
+                      domProps: { value: _vm.data_final_previsto_periodo },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.data_final_previsto_periodo = $event.target.value
+                        },
+                      },
+                    }),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "input-container-component",
+                  { attrs: { titulo: "Valor diaria", id: "valorDiariaInput" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.valor_diaria,
+                          expression: "valor_diaria",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        id: "valorDiariaInput",
+                        placeholder: "R$ 100",
+                      },
+                      domProps: { value: _vm.valor_diaria },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.valor_diaria = $event.target.value
+                        },
+                      },
+                    }),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "input-container-component",
+                  { attrs: { titulo: "Km Inicial", id: "kmInicialInput" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.km_inicial,
+                          expression: "km_inicial",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        id: "kmInicialInput",
+                        placeholder: "10000",
+                      },
+                      domProps: { value: _vm.km_inicial },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.km_inicial = $event.target.value
+                        },
+                      },
+                    }),
+                  ]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "rodape",
+            fn: function () {
+              return [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-bs-dismiss": "modal" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.clearStore()
+                      },
+                    },
+                  },
+                  [_vm._v("Cancelar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.salvar()
+                      },
+                    },
+                  },
+                  [_vm._v("Adicionar")]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+        ]),
+      }),
+      _vm._v(" "),
+      _c("modal-component", {
+        attrs: { id: "locacaoModalVisualizar", title: "Dados da Locação" },
+        scopedSlots: _vm._u([
+          {
+            key: "conteudo",
+            fn: function () {
+              return [
+                _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-4" },
+                    [
+                      _c(
+                        "input-container-component",
+                        { attrs: { titulo: "Numero locação", id: "idInput" } },
+                        [
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              id: "idInput",
+                              placeholder: "Id",
+                              disabled: "",
+                            },
+                            domProps: { value: _vm.$store.state.item.id },
+                          }),
+                        ]
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _vm.$store.state.item.cliente && _vm.$store.state.item.carro
+                  ? _c("div", { staticClass: "row" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col-4" },
+                        [
+                          [
+                            _c("img", {
+                              staticStyle: { width: "100%" },
+                              attrs: {
+                                src:
+                                  "/storage/" +
+                                  _vm.$store.state.item.carro.modelo.imagem,
+                                alt:
+                                  "imagem/" +
+                                  _vm.$store.state.item.carro.modelo.nome,
+                              },
+                            }),
+                          ],
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-8" },
+                        [
+                          _c(
+                            "input-container-component",
+                            {
+                              attrs: {
+                                titulo: "Cliente",
+                                id: "clienteNomeInput",
+                              },
+                            },
+                            [
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "clienteNomeInput",
+                                  disabled: "",
+                                },
+                                domProps: {
+                                  value: _vm.$store.state.item.cliente.nome,
+                                },
+                              }),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c(
+                              "div",
+                              { staticClass: "col-6" },
+                              [
+                                _c(
+                                  "input-container-component",
+                                  {
+                                    attrs: {
+                                      titulo: "Modelo",
+                                      id: "modeloInput",
+                                    },
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        id: "modeloInput",
+                                        placeholder: "Modelo",
+                                        disabled: "",
+                                      },
+                                      domProps: {
+                                        value:
+                                          _vm.$store.state.item.carro.modelo
+                                            .nome,
+                                      },
+                                    }),
+                                  ]
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "col-6" },
+                              [
+                                _c(
+                                  "input-container-component",
+                                  {
+                                    attrs: {
+                                      titulo: "Placa",
+                                      id: "placaIdInput",
+                                    },
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        id: "placaInput",
+                                        placeholder: "Placa",
+                                        disabled: "",
+                                      },
+                                      domProps: {
+                                        value:
+                                          _vm.$store.state.item.carro.placa,
+                                      },
+                                    }),
+                                  ]
+                                ),
+                              ],
+                              1
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "input-container-component",
+                            {
+                              attrs: {
+                                titulo: "Data locação",
+                                id: "dataLocacaoInput",
+                              },
+                            },
+                            [
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "dataLocacaoInput",
+                                  placeholder: "Data inicio",
+                                  disabled: "",
+                                },
+                                domProps: {
+                                  value: _vm._f("formataDataTempoGlobal")(
+                                    _vm.$store.state.item.data_inicio_periodo
+                                  ),
+                                },
+                              }),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "input-container-component",
+                            {
+                              attrs: {
+                                titulo: "Data final previsto",
+                                id: "dataFimPrevistoInput",
+                              },
+                            },
+                            [
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "dataFimPrevistoInput",
+                                  placeholder: "Data fim previsto",
+                                  disabled: "",
+                                },
+                                domProps: {
+                                  value:
+                                    _vm.$store.state.item
+                                      .data_final_previsto_periodo,
+                                },
+                              }),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "input-container-component",
+                            {
+                              attrs: {
+                                titulo: "Valor diaria",
+                                id: "valorDiariaInput",
+                              },
+                            },
+                            [
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "number",
+                                  id: "valorDiariaInput",
+                                  placeholder: "Valor",
+                                  disabled: "",
+                                },
+                                domProps: {
+                                  value: _vm.$store.state.item.valor_diaria,
+                                },
+                              }),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c(
+                              "div",
+                              { staticClass: "col-4" },
+                              [
+                                _c(
+                                  "input-container-component",
+                                  {
+                                    attrs: {
+                                      titulo: "Km Inicial",
+                                      id: "kmIncialInput",
+                                    },
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        id: "kmIncialInput",
+                                        placeholder: "Km Inicial",
+                                        disabled: "",
+                                      },
+                                      domProps: {
+                                        value: _vm.$store.state.item.km_inicial,
+                                      },
+                                    }),
+                                  ]
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "col-4" },
+                              [
+                                _c(
+                                  "input-container-component",
+                                  {
+                                    attrs: {
+                                      titulo: "Km final",
+                                      id: "kmFinalInput",
+                                    },
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        id: "kmFinalInput",
+                                        value: "",
+                                        disabled: "",
+                                      },
+                                    }),
+                                  ]
+                                ),
+                              ],
+                              1
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "input-container-component",
+                            {
+                              attrs: {
+                                titulo: "Data devolução",
+                                id: "dataDevolucaoInput",
+                              },
+                            },
+                            [
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "number",
+                                  id: "dataDevolucaoInput",
+                                  value: "",
+                                  disabled: "",
+                                },
+                              }),
+                            ]
+                          ),
+                        ],
+                        1
+                      ),
+                    ])
+                  : _vm._e(),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "rodape",
+            fn: function () {
+              return [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-bs-dismiss": "modal" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.clearStore()
+                      },
+                    },
+                  },
+                  [_vm._v("Cancelar")]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+        ]),
+      }),
+      _vm._v(" "),
+      _c("modal-component", {
+        attrs: {
+          id: "locacaoModalAtualizar",
+          title: "Finalizar Locação",
+          "data-modalIsOpen": (_vm.isModalClosed =
+            _vm.$store.state.isModalOpened),
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "alertas",
+            fn: function () {
+              return [
+                _vm.$store.state.transacao.status == "atualizar"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "success",
+                        detalhes: _vm.$store.state.transacao,
+                        titulo: "Atualização de registro",
+                      },
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$store.state.transacao.status == "erro"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "danger",
+                        detalhes: _vm.$store.state.transacao,
+                        titulo: "Errou ao atualizar o retistro",
+                      },
+                    })
+                  : _vm._e(),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "conteudo",
+            fn: function () {
+              return [
+                _vm.$store.state.item.cliente && _vm.$store.state.item.carro
+                  ? [
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col-6" },
+                          [
+                            _c(
+                              "input-container",
+                              { attrs: { titulo: "Numero Locação" } },
+                              [
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: _vm.$store.state.item.id },
+                                }),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-6" },
+                          [
+                            _c(
+                              "input-container-component",
+                              {
+                                attrs: {
+                                  titulo: "Cliente",
+                                  id: "clienteNomeInput",
+                                },
+                              },
+                              [
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "clienteNomeInput",
+                                    disabled: "",
+                                  },
+                                  domProps: {
+                                    value: _vm.$store.state.item.cliente.nome,
+                                  },
+                                }),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col-6" },
+                          [
+                            _c(
+                              "input-container-component",
+                              {
+                                attrs: { titulo: "Modelo", id: "modeloInput" },
+                              },
+                              [
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "modeloInput",
+                                    placeholder: "Modelo",
+                                    disabled: "",
+                                  },
+                                  domProps: {
+                                    value:
+                                      _vm.$store.state.item.carro.modelo.nome,
+                                  },
+                                }),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-6" },
+                          [
+                            _c(
+                              "input-container-component",
+                              {
+                                attrs: { titulo: "Placa", id: "placaIdInput" },
+                              },
+                              [
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "placaInput",
+                                    placeholder: "Placa",
+                                    disabled: "",
+                                  },
+                                  domProps: {
+                                    value: _vm.$store.state.item.carro.placa,
+                                  },
+                                }),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col-4" },
+                          [
+                            _c(
+                              "input-container-component",
+                              {
+                                attrs: {
+                                  titulo: "Valor diaria",
+                                  id: "valorDiariaInput",
+                                },
+                              },
+                              [
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "number",
+                                    id: "valorDiariaInput",
+                                    placeholder: "Valor",
+                                    disabled: "",
+                                  },
+                                  domProps: {
+                                    value: _vm.$store.state.item.valor_diaria,
+                                  },
+                                }),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col-6" },
+                          [
+                            _c(
+                              "input-container-component",
+                              {
+                                attrs: {
+                                  titulo: "Km final",
+                                  id: "kmFinalInput",
+                                },
+                              },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.km_final,
+                                      expression: "km_final",
+                                    },
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { type: "number", id: "kmFinalInput" },
+                                  domProps: { value: _vm.km_final },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.km_final = $event.target.value
+                                    },
+                                  },
+                                }),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-6" },
+                          [
+                            _c(
+                              "input-container-component",
+                              {
+                                attrs: {
+                                  titulo: "Data devolução",
+                                  id: "dataDevolucaoInput",
+                                },
+                              },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.data_final_realizado_periodo,
+                                      expression:
+                                        "data_final_realizado_periodo",
+                                    },
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    id: "dataDevolucaoInput",
+                                  },
+                                  domProps: {
+                                    value: _vm.data_final_realizado_periodo,
+                                  },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.data_final_realizado_periodo =
+                                        $event.target.value
+                                    },
+                                  },
+                                }),
+                              ]
+                            ),
+                          ],
+                          1
+                        ),
+                      ]),
+                    ]
+                  : _vm._e(),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "rodape",
+            fn: function () {
+              return [
+                _c(
+                  "div",
+                  {
+                    staticClass: "d-flex justify-content-between",
+                    staticStyle: { width: "100%" },
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.atualizar()
+                          },
+                        },
+                      },
+                      [_vm._v("Atualizar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary",
+                        attrs: { type: "button", "data-bs-dismiss": "modal" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.clearModalFields()
+                          },
+                        },
+                      },
+                      [_vm._v("Cancelar")]
+                    ),
+                  ]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+        ]),
+      }),
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Login.vue?vue&type=template&id=6bdc8b8e&":
 /*!*****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Login.vue?vue&type=template&id=6bdc8b8e& ***!
@@ -34231,9 +36004,7 @@ var render = function () {
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-8" }, [
         _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Login (Component vue)"),
-          ]),
+          _c("div", { staticClass: "card-header" }, [_vm._v("Login")]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c(
@@ -37015,8 +38786,13 @@ var render = function () {
                 _vm.titulos[chaveValor].tipo == "data" &&
                 _vm.titulos[chaveValor].show
                   ? _c("span", [
-                      _vm._v(_vm._s(_vm._f("formataDataTempoGlobal")(valor))),
+                      _vm._v(_vm._s(_vm._f("formataDataTempo")(valor))),
                     ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.titulos[chaveValor].tipo == "number" &&
+                _vm.titulos[chaveValor].show
+                  ? _c("span", [_vm._v(_vm._s(valor))])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.titulos[chaveValor].tipo == "text[]" &&

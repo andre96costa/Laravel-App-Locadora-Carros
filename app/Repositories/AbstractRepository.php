@@ -12,7 +12,7 @@ abstract class AbstractRepository
         $this->model = $model;
     }
 
-    public function selectAtributesRegistroRelacionamento(string $atributos)
+    public function selectAtributesRegistroRelacionamento(array $atributos) 
     {
         $this->model = $this->model->with($atributos);
     }

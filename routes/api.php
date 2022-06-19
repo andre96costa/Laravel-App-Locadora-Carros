@@ -6,6 +6,8 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LocacaoController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ModeloController;
+use App\Models\Carro;
+use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +29,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->middleware(['jwt.auth'])->group(function() {
     Route::get('/marca/lista', [MarcaController::class, 'listAllMarca']);
     Route::get('/modelo/lista', [ModeloController::class, 'listAllModelos']);
+    Route::get('/cliente/lista', [ClienteController::class, 'listAllClientes']);
+    Route::get('/carro/lista', [CarroController::class, 'listAllCarros']);
     
     Route::apiResource('cliente', ClienteController::class);
     Route::apiResource('carro', CarroController::class);

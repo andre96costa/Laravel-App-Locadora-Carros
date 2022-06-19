@@ -27,9 +27,9 @@ class MarcaController extends Controller
         
         if ($request->has('atributos_modelos')) {
             $atributosModelos = "modelos:$request->atributos_modelos";
-            $marcaRepository->selectAtributesRegistroRelacionamento($atributosModelos);
+            $marcaRepository->selectAtributesRegistroRelacionamento([$atributosModelos]);
         } else {
-            $marcaRepository->selectAtributesRegistroRelacionamento('modelos');
+            $marcaRepository->selectAtributesRegistroRelacionamento(['modelos']);
         }
 
         if ($request->has('filtro')) {
@@ -133,8 +133,12 @@ class MarcaController extends Controller
             return response()->json([], 404);
         }
 
-        Storage::disk('public')->delete($marca->imagem);
-        $marca->delete();
+        try {
+            Storage::disk('public')->delete($marca->imagem);
+            $marca->delete();
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Não pode ser deletado. Este registro está relacionado com um registro de modelo.'], 500);
+        }
 
         return response()->json([], 204);
     }

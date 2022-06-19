@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -36,3 +36,7 @@ Route::get('/carros', function() {
 Route::get('/clientes', function() {
     return view('app.cliente');
 })->name('cliente')->middleware('auth');
+
+Route::get('/locacoes', function() {
+    return view('app.locacao');
+})->name('locacao')->middleware('auth');

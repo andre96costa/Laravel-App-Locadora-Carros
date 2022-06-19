@@ -33,10 +33,10 @@
                             v-bind:titulos="{
                                 id: {titulo: 'ID', tipo: 'text', show: true},
                                 placa: {titulo: 'Placa', tipo: 'text', show: true},
-                                modelo: {titulo: 'modelo', tipo: 'text[]', show: false},
                                 disponivel: {titulo: 'Disponivel', tipo: 'checkbox', show: true},
                                 km: {titulo: 'Km', tipo: 'text', show: true},
                                 created_at: {titulo: 'Data Inserção', tipo: 'data', show: true},
+                                modelo: {titulo: 'modelo', tipo: 'text[]', show: false},
                                 modelo_id: {titulo: 'modelo_id', tipo: 'number', show: false},
                                 
                             }"

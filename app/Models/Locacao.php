@@ -21,6 +21,8 @@ class Locacao extends Model
         'km_final',
     ];
 
+    protected $with = ['carro.modelo'];
+
     public function rules()
     {
         return [
@@ -39,10 +41,20 @@ class Locacao extends Model
     {
         return [
             'required' => 'O campo :attribute é obrigatório',
-            'date_format' => 'A data deve ser informada no padrão (ano-mes-dia)',
+            'date_format' => 'A data :attribute deve ser informada no padrão (ano-mes-dia)',
             'integer' => 'O campo deve ser um valor númerico inteiro',
             'cliente_id.exists' => 'Selecione um cliente valido',
             'carro_id.exists' => 'Selecione um carro valido',
         ];
-    }  
+    }
+    
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'cliente_id', 'id');
+    }
+
+    public function carro()
+    {
+        return $this->belongsTo(Carro::class, 'carro_id', 'id');
+    }
 }

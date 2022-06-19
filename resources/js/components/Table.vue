@@ -16,7 +16,8 @@
                     <span v-if="titulos[chaveValor].tipo == 'imagen' && titulos[chaveValor].show">
                         <img v-bind:src="'/storage/'+valor" :alt="'imagem-'+valor" width="40px" height="40px">
                     </span>
-                    <span v-if="titulos[chaveValor].tipo == 'data' && titulos[chaveValor].show">{{ valor | formataDataTempoGlobal }}</span>
+                    <span v-if="titulos[chaveValor].tipo == 'data' && titulos[chaveValor].show">{{ valor | formataDataTempo }}</span>
+                    <span v-if="titulos[chaveValor].tipo == 'number' && titulos[chaveValor].show">{{ valor }}</span>
                     <span v-if="titulos[chaveValor].tipo == 'text[]' && titulos[chaveValor].show">{{ valor.nome }}</span>
                 </td>
                 <td>
@@ -37,7 +38,8 @@
                     return '';
                 }
                 d = d.split('T')[0];
-                let data = d.split('-');
+                let data = d.split(' ');
+                data = data[0].split('-');
                 return data[2]+'/'+data[1]+'/'+data[0];
             },
         },
